@@ -1,0 +1,15 @@
+{% extends 'inquiry_apps/base.html' %}
+
+{% block content %}
+<h1>お問い合わせ</h1>
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.subject }}
+
+
+    <button type="submit">送信する</button>
+</form>
+
+
+{% endblock %}

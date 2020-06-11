@@ -5,4 +5,7 @@ app_name = 'inquiry_apps'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('inquiry/add/', views.inquiry_add, name='inquiry_add'),
+    # path('inquirys/add_success/', views.inquiry_add_success, name='inquiry_add_success'),
+
 ]

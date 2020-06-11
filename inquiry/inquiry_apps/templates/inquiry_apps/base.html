@@ -14,8 +14,11 @@
     <div class="header">
         <!-- header -->
         <header>
-            <p>グローバルナビゲーションをここに書く</p>
+            <a href="{% url 'inquiry_apps:inquiry_add' %}">お問い合わせ</a>
+            <a href="">お問い合わせ一覧</a>
+            <a href="">Ajaxを利用したお問い合わせ一覧</a>
         </header>
+        <hr>
         {% block header %}
         {% endblock%}
     </div>
