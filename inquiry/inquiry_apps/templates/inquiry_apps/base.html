@@ -9,21 +9,42 @@
     <link rel="stylesheet" href="{% static 'inquiry_apps/css/base.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
-
 <body>
+    <header class="header">
+        <div class="header-bg">
+            <div class="header-cat">
+                <div class="header-logo">
+                    <a href="/">Inquiry apps</a>
+                </div>
+                <input type="checkbox" id="hamburger">
+                <label for="hamburger">
+                    <span class="hamburger-icon">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </span>
+                </label>
+                <nav class="header-navi">
+                    <div class="header-navi-wrap">
+                        <ul class="header-navi-list">
+                            <li class="header-navi-item"><a href="/">Top page</a></li>
+                            <li class="header-navi-item"><a href="{% url 'inquiry_apps:inquiry_add' %}">Inquiry form</a></li>
+                            <li class="header-navi-item"><a href="{% url 'inquiry_apps:inquiry_list' %}">Inquiry list</a></li>
+                            <li class="header-navi-item"><a href="">Ajax List</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
     <div class="header">
-        <!-- header -->
-        <header>
-            <a href="{% url 'inquiry_apps:inquiry_add' %}">お問い合わせ</a>
-            <a href="">お問い合わせ一覧</a>
-            <a href="">Ajaxを利用したお問い合わせ一覧</a>
-        </header>
-        <hr>
         {% block header %}
         {% endblock%}
     </div>
     <!-- header -->
+
     <div class="content">
+        <hr>
         {% block content %}
         {% endblock %}
     </div>

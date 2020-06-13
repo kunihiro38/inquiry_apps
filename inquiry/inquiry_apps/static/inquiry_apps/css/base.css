@@ -2,11 +2,232 @@
 html{
     font-size: 16px;
 }
-
 ul, ol{
     list-style: none;
 }
-
 h1{
     color: rgba(241, 70, 233, 0.377);
+}
+.header {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    background-color: rgb(000,000,000,.5);
+}
+.header-bg {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+.header-logo a {
+    font-family: cursive;
+    display: block;
+    text-decoration: none;
+    font-size: 2rem;
+    color: #fff;
+}
+.header-cat {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-cat input,
+.header-cat label {
+    display: none;
+}
+.header-navi-list {
+    display: flex;
+}
+.header-navi-item span {
+    position: relative;
+}
+.header-navi-item span:after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background: #fff;
+    opacity: 0;
+    transition: all .8s cubic-bezier(.19,1,.22,1);
+    transition-timing-function: cubic-bezier(.19,1,.22,1);
+}
+.header-navi-item:hover span:after {
+    opacity: 1;
+    left: 0;
+    width: 100%;
+}
+.header-navi a {
+    text-decoration: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 1rem;
+    color: #fff;
+}
+
+
+.content{
+    margin-top: 100px;
+}
+
+
+/* table */
+table tr td{
+    padding: 10px;
+    width: 100%;
+}
+/* table */
+
+.btn{
+    padding: 3px 15px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+}
+
+
+.btn:hover{
+    opacity: .7;
+}
+
+
+
+
+
+
+
+.footer {
+    text-align: center;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+
+    .header-bg {
+        padding: 10px;
+    }
+    .header-logo a {
+        font-size: 1.2rem;
+    }
+
+    .header-cat input,
+    .header-cat label {
+        display: block;
+    }
+    .header-cat input {
+        display: none;
+    }
+    .header-cat label {
+        position: absolute;
+        right: 10px;
+        clear: both;
+    }
+    span.hamburger-icon {
+        display: inline-block;
+        width: 35px;
+        height: 25px;
+    }
+    span.hamburger-icon i {
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: #fff;
+        display: block;
+        transition: all .3s ease-in-out;
+    }
+    span.hamburger-icon i:nth-child(1) {
+        top: 0;
+    }
+    span.hamburger-icon i:nth-child(2) {
+        margin: auto;
+        top: 0;
+        bottom: 0;
+    }
+    span.hamburger-icon i:nth-child(3) {
+        bottom: 0;
+    }
+    .header-cat input:checked + label span.hamburger-icon i:nth-child(1) {
+        margin: auto;
+        transform: rotate(45deg);
+        right: 0;
+        bottom: 0;
+        left: 0;
+        top: 0;
+    }
+    .header-cat input:checked + label span.hamburger-icon i:nth-child(2) {
+        transform: rotateX(90deg);
+        top: 0;
+        bottom: 0;
+    }
+    .header-cat input:checked + label span.hamburger-icon i:nth-child(3) {
+        margin: auto;
+        transform: rotate(-45deg);
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+    .header-cat input:checked ~ .header-navi {
+        z-index: 99;
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .header-navi {
+        position: fixed;
+        opacity: 0;
+        background-color: rgba(255, 255, 255, 0.7);
+        top: 50px;
+        right: 0;
+        transform: translateX(100%);
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        transition: all .2s ease-out;
+    }
+    .header-navi-wrap {
+        width: 100%;
+        background-color: rgba(0, 0, 0, .2);
+        position: absolute;
+        right: 0;
+        top: 0px;
+        bottom: 0;
+        transition-duration: .2s;
+        transition-property: right;
+        overflow-y: scroll;
+    }
+    .header-cat input:checked ~ .header-navi .header-navi-wrap {
+        right: 0;
+    }
+    .header-navi-list {
+        margin: 0;
+        display: block;
+        justify-content: inherit;
+    }
+    .header-navi-item {
+        border-bottom: 1px solid #000;
+    }
+    .header-navi-item a {
+        padding: 0 50px;
+        color: #000;
+        font-size: 24px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        font-weight: 700;
+        line-height: 1;
+        transition: background-color .3s ease-in-out;
+    }
+    .content{
+        margin-top: 54px;
+    }
 }
