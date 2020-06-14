@@ -69,18 +69,42 @@ h1{
     font-size: 1rem;
     color: #fff;
 }
-
-
 .content{
     margin-top: 100px;
 }
 
+.search_inquiry_form{
+    width: 400px;
+    padding: 1.5em;
+    border: 1px dotted #aaafff;
+    border-radius: 5px;
+}
+
+.search_inquiry_form li label{
+    display: inline-block;
+    width: 64px;
+    margin: 5px 10px;
+    text-align: right;
+}
+
+.search_inquiry_form li button{
+    margin: 10px 0;
+}
 
 /* table */
 table tr td{
     padding: 10px;
     width: 100%;
 }
+
+.inquiry_list_table thead{
+    background: rgba(55, 55, 255, .4);    
+}
+
+.inquiry_list_table tr:nth-child(odd) td{
+    background: rgba(102, 194, 206, 0.18);
+}
+
 /* table */
 
 .btn{

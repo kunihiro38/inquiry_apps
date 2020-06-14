@@ -6,4 +6,69 @@
 
 {% block content %}
 <h1>Inquiry list</h1>
+<form action="" method="get">
+    <ul class="search_inquiry_form">
+        <li>
+            <label for="id">Id:</label>
+            <input type="number" name="id">
+        </li>
+        <li>
+            <label for="">Subject:</label>
+            <input type="text" name="subject">
+        </li>
+        <li>
+            <label for="">Word:</label>
+            <input type="text" name="message">
+        </li>
+        <li>
+            <label for=""></label>
+            <button type="submit" class="btn">Search</button>
+        </li>
+
+    </ul>
+</form>
+
+
+<hr>
+<table class="inquiry_list_table">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Subject</td>
+            <td>Message</td>
+            <td>Email</td>
+            <td>Updated_at</td>
+            <td>Detail</td>
+            <td>Status</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for inquiry in inquiries_page %}
+        <tr>
+            <td>{{ inquiry.id }}</td>
+            <td>{{ inquiry.name }}</td>
+            <td>{{ inquiry.subject }}</td>
+            <td>{{ inquiry.message }}</td>
+            <td>{{ inquiry.email }}</td>
+            <td>{{ inquiry.updated_at|date:"Y-m-j H:i " }}</td>
+            <td>工事中やて</td>
+            <td>
+                {% if inquiry.inquiry_status == inquiry.InquiryStatus.Pending %}
+                Penging
+                {% elif inquiry.inquiry_status == inquiry.InquiryStatus.Ignore %}
+                Ignore
+                {% else %}
+                Competed
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+
+</table>
+
+
+
 {% endblock %}

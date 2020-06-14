@@ -30,3 +30,12 @@ class InquiryAddForm(forms.Form):
     def clean_message(self):
         message = self.cleaned_data['message']
         return message
+
+class InquiryFindForm(forms.form):
+    id = forms.IntegerField(required=False,
+                                min_value=1,
+                                max_value=100000)
+    subject = forms.CharField(required=False,
+                                max_length=255)
+    word = forms.CharField(required=False,
+                            max_length=1000)
