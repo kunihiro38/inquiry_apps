@@ -31,7 +31,7 @@ class InquiryAddForm(forms.Form):
         message = self.cleaned_data['message']
         return message
 
-class InquiryFindForm(forms.form):
+class InquiryFindForm(forms.Form):
     id = forms.IntegerField(required=False,
                                 min_value=1,
                                 max_value=100000)
@@ -39,3 +39,7 @@ class InquiryFindForm(forms.form):
                                 max_length=255)
     word = forms.CharField(required=False,
                             max_length=1000)
+    
+    def clean_id(self):
+        id = self.cleaned_data['id']
+        return id

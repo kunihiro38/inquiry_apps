@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.views.decorators.http import require_http_methods
-from .forms import InquiryAddForm
+from .forms import InquiryAddForm, InquiryFindForm
 from .models import Inquiry
 
 @require_http_methods(['GET'])
@@ -22,7 +22,7 @@ def inquiry_add(request):
         context = {
             'form': InquiryAddForm(initial=items),
         }
-    
+
     else:
         # POST
         form = InquiryAddForm(request.POST)
@@ -47,12 +47,15 @@ def inquiry_add_success(request):
 @require_http_methods(['GET'])
 def inquiry_list(request):
     qs = Inquiry.objects.order_by('-updated_at')
-    
-    ここから再会
     form = InquiryFindForm(request.GET)
+    if not form.is_valid():
+        return render(request, 'inquiry_apps/inquiry_list.html', {'form': form})
 
     if form.is_valid():
+        id_int = form.cleaned_data['id']
 
+    if id_int is not None:
+        qs = qs.filter(id=id_int)
 
 
     context = {
@@ -61,3 +64,4 @@ def inquiry_list(request):
     template = loader.get_template('inquiry_apps/inquiry_list.html')
     return HttpResponse(template.render(context, request))
     # return render(request, 'inquiry_apps/inquiry_list.html', context)
+
