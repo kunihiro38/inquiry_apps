@@ -9,6 +9,8 @@ Development
 
 Technology implemented
 - CRUD
+- validation
+
 - pagination
 - Ajax
 - pagination by Ajax

@@ -53,11 +53,20 @@ def inquiry_list(request):
 
     if form.is_valid():
         id_int = form.cleaned_data['id']
+        email_str = form.cleaned_data['email']
+        word_str = form.cleaned_data['word']
+
+    if email_str is not None:
+        qs = qs.filter(email__contains=email_str)
 
     if id_int is not None:
         qs = qs.filter(id=id_int)
 
+    if word_str is not None:
+        qs = qs.filter(subject__contains=word_str)
 
+
+    print(qs)
     context = {
         'inquiries_page': qs,
     }

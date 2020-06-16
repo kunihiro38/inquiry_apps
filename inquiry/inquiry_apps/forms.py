@@ -35,11 +35,23 @@ class InquiryFindForm(forms.Form):
     id = forms.IntegerField(required=False,
                                 min_value=1,
                                 max_value=100000)
-    subject = forms.CharField(required=False,
+    email = forms.EmailField(required=False,
                                 max_length=255)
     word = forms.CharField(required=False,
                             max_length=1000)
     
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
+
     def clean_id(self):
         id = self.cleaned_data['id']
         return id
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        return email
+    
+    def clean_word(self):
+        word = self.cleaned_data['word']
+        return word
