@@ -6,19 +6,26 @@
 
 {% block content %}
 <h1>Inquiry list</h1>
-<form action="" method="get">
+<form method="get">
     <ul class="search_inquiry_form">
         <li>
             <label for="id">Id:</label>
-            <input type="number" name="id" min="1">
+            <!-- <input type="number" name="id" min="1"> -->
+            <span class="input_field">{{ form.id }}{{ form.id.errors }}</span>
         </li>
         <li>
             <label for="">Email:</label>
-            <input type="text" name="email">
+            <!-- <input type="text" name="email"> -->
+            <span class="input_field">{{ form.email }}{{ form.email.erros }}</span>
         </li>
         <li>
             <label for="">Word:</label>
-            <input type="text" name="message">
+            <!-- <input type="text" name="message"> -->
+            <span class="input_field">{{ form.word }}{{ form.word.erros }}</span>
+        </li>
+        <li>
+            <label for=""></label>
+            <span>※Word can find subject and message</span>
         </li>
         <li>
             <label for=""></label>
@@ -30,6 +37,20 @@
 
 
 <hr>
+{% if inquiries_page.has_previous %}
+<a href="{{ prev_page_href }}">◀︎Prev</a>
+{% endif %}
+{% for num in inquiries_page.paginator.page_range %}
+{% if inquiries_page.number == num %}
+<span>{{ num }}</span>
+{% else %}
+<a href="?email={{ search_email }}&page={{ num }}">{{ num }}</a>
+{% endif %}
+{% endfor %}
+{% if inquiries_page.has_next %}
+<a href="{{ next_page_href }}">Next▶︎</a>
+{% endif %}
+
 <table class="inquiry_list_table">
     <thead>
         <tr>
@@ -38,7 +59,7 @@
             <td>Subject</td>
             <td>Message</td>
             <td>Email</td>
-            <td>Updated_at</td>
+            <td>Updated</td>
             <td>Detail</td>
             <td>Status</td>
         </tr>
@@ -47,13 +68,14 @@
         {% for inquiry in inquiries_page %}
         <tr>
             <td>{{ inquiry.id }}</td>
-            <td>{{ inquiry.name }}</td>
-            <td>{{ inquiry.subject }}</td>
-            <td>{{ inquiry.message }}</td>
-            <td>{{ inquiry.email }}</td>
-            <td>{{ inquiry.updated_at|date:"Y-m-j H:i " }}</td>
-            <td>工事中やて</td>
+            <td><div class="container"><span>Name</span><span>{{ inquiry.name }}</span></div></td>
+            <td><div class="container"><span>Subject</span><span>{{ inquiry.subject }}</span></div></td>
+            <td><div class="container"><span>Message</span><span>{{ inquiry.message }}</span></div></td>
+            <td><div class="container"><span>Email</span><span>{{ inquiry.email }}</span></div></td>
+            <td><div class="container"><span>Updated</span><span>{{ inquiry.updated_at|date:"Y-m-j H:i " }}</span></div></td>
+            <td><div class="container"><span>Detail</span><span><a href="{% url 'inquiry_apps:comment_list' inquiry.id %}">detail</a></span></div></td>
             <td>
+                <div class="container"><span>Status</span><span>
                 {% if inquiry.inquiry_status == inquiry.InquiryStatus.Pending %}
                 Penging
                 {% elif inquiry.inquiry_status == inquiry.InquiryStatus.Ignore %}
@@ -61,6 +83,7 @@
                 {% else %}
                 Competed
                 {% endif %}
+                </span></div>
             </td>
         </tr>
         {% endfor %}

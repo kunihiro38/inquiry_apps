@@ -8,9 +8,12 @@ Development
 
 
 Technology implemented
+- responsive
 - CRUD
 - validation
-
+- Regular expression
 - pagination
+
+
 - Ajax
 - pagination by Ajax

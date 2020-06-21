@@ -1,0 +1,38 @@
+{% extends 'inquiry_apps/base.html' %}
+{% block page_title %}Comment list{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+
+{% block content %}
+<h1>Id:{{ id }}  Comment list</h1>
+<table class="inquiry_list_table">
+    <tr>
+        <th>Id</th>
+        <td>{{ id }}</td>
+    </tr>
+    <tr>
+        <th>Name</th>
+        <td>{{ inquiry.name }}</td>
+    </tr>
+    <tr>
+        <th>Subject</th>
+        <td>{{ inquiry.subject }}</td>
+    </tr>
+    <tr>
+        <th>Message</th>
+        <td>{{ inquiry.message }}</td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>{{ inquiry.email }}</td>
+    </tr>
+    <tr>
+        <th>Updated</th>
+        <td>{{ inquiry.updated_at }}</td>
+    </tr>
+</table>
+
+
+{% endblock %}

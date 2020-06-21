@@ -9,7 +9,7 @@ h1{
     color: rgba(241, 70, 233, 0.377);
 }
 .header {
-    position: fixed;
+    /* position: fixed; */
     width: 100%;
     left: 0;
     top: 0;
@@ -69,9 +69,7 @@ h1{
     font-size: 1rem;
     color: #fff;
 }
-.content{
-    margin-top: 100px;
-}
+
 
 .search_inquiry_form{
     width: 400px;
@@ -105,6 +103,10 @@ table tr td{
     background: rgba(102, 194, 206, 0.18);
 }
 
+.inquiry_list_table tbody tr td div span:first-child{
+    display: none;
+}
+
 /* table */
 
 .btn{
@@ -117,12 +119,6 @@ table tr td{
 .btn:hover{
     opacity: .7;
 }
-
-
-
-
-
-
 
 .footer {
     text-align: center;
@@ -251,7 +247,46 @@ table tr td{
         line-height: 1;
         transition: background-color .3s ease-in-out;
     }
-    .content{
-        margin-top: 54px;
+
+    /* table; */
+
+
+    .inquiry_list_table thead tr td{
+        display: none;
     }
+
+    .inquiry_list_table td{
+        display: inline-block;
+        width: 100%;
+        border: 1px dotted #aaafff;
+    }
+
+    .inquiry_list_table tbody tr td:first-child{
+        background: rgb(218, 165, 231);
+        color: #ffffff;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .inquiry_list_table .container{
+        display: flex;
+        flex-shrink: 0;
+        flex-grow: 0;
+    }
+
+    .inquiry_list_table .container span:first-child{
+        display: inline;
+        color: #8a7790;
+        flex-basis: 6em;
+        text-align: left;
+    }
+
+    .inquiry_list_table span:last-child{
+        flex-basis: calc(100% - 6em);
+        word-break: break-all;
+    }
+
+    /* table */
+
+
 }
