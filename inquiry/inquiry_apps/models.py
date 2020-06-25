@@ -1,6 +1,5 @@
 from django.db import models
 
-# これを中途半端に残すとLookUpErrorが出る
 class Inquiry(models.Model):
     class Meta:
         db_table = 'inquiry'

@@ -10,6 +10,9 @@ Development
 Technology implemented
 - responsive
 - CRUD
+- relationship
+- create some tests
+
 - validation
 - Regular expression
 - pagination

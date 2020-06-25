@@ -9,7 +9,11 @@ class InquiryAddForm(forms.Form):
                                 max_length=255,)
     message = forms.CharField(required=True,
                                 max_length=1000,
-                                widget=forms.Textarea,)
+                                widget=forms.Textarea(
+                                    attrs={
+                                        'placeholder': 'input some words',
+                                    }
+                                ),)
     
     def clean(self):
         cleaned_data = super().clean()

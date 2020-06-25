@@ -22,7 +22,7 @@ def inquiry_add(request):
             'name': '',
             'email': '',
             'subject': '',
-            'message': 'input some words',
+            'message': '',
         }
         context = {
             'form': InquiryAddForm(initial=items),
@@ -38,7 +38,7 @@ def inquiry_add(request):
                 subject=form.cleaned_data['subject'],
                 message=form.cleaned_data['message'],
             )
-            # inquiry.save()
+            inquiry.save()
             # return render(request, 'inquiry_apps/inquiry_add/inquiry_add_success.html')
             return HttpResponseRedirect(reverse('inquiry_apps:inquiry_add_success'))
             
@@ -48,7 +48,15 @@ def inquiry_add(request):
 
 @require_http_methods(['GET'])
 def inquiry_add_success(request):
-    return render(request, 'inquiry_apps/inquiry_add/inquiry_add_success.html')
+    # 0624 is this need?
+    qs = Inquiry.objects.filter(id=1)
+    # print(qs[0].email)
+    context = {
+        'result': qs[0].id,
+    }
+    
+ 
+    return render(request, 'inquiry_apps/inquiry_add/inquiry_add_success.html', context)
 
 
 
