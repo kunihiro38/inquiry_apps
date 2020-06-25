@@ -2,6 +2,11 @@
 html{
     font-size: 16px;
 }
+
+body{
+    margin: 0 20px;
+}
+
 ul, ol{
     list-style: none;
 }
@@ -92,7 +97,6 @@ h1{
 /* table */
 table tr td{
     padding: 10px;
-    width: 100%;
 }
 
 .inquiry_list_table thead{
@@ -100,11 +104,19 @@ table tr td{
 }
 
 .inquiry_list_table tr:nth-child(odd) td{
-    background: rgba(102, 194, 206, 0.18);
+    background: rgba(161, 230, 233, 0.192);
 }
 
 .inquiry_list_table tbody tr td div span:first-child{
     display: none;
+}
+
+table tr .inquiry_status span{
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    background: #fd0000;
+    font-weight: bold;
 }
 
 /* table */
@@ -130,6 +142,10 @@ table tr td{
 @media screen and (max-width: 768px) {
     html {
         font-size: 16px;
+    }
+
+    table th{
+        text-align:right;
     }
 
     .header-bg {
@@ -250,6 +266,10 @@ table tr td{
 
     /* table; */
 
+
+    .inquiry_list_table{
+        width: 97%;
+    }
 
     .inquiry_list_table thead tr td{
         display: none;

@@ -28,7 +28,6 @@ class Inquiry(models.Model):
 
     inquiry_status = models.IntegerField(
         verbose_name='inquiry_status',
-        max_length=1,
         choices=INQUIRY_STATUS_CHOICES,
         default=0
     )
@@ -70,7 +69,6 @@ class InquiryComment(models.Model):
 
     inquiry_status = models.IntegerField(
         verbose_name='inquiry_status',
-        max_length=1,
         choices=INQUIRY_STATUS_CHOICES,
         default=0
     )

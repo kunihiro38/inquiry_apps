@@ -9,5 +9,6 @@ urlpatterns = [
     path('inquiry/add/success/', views.inquiry_add_success, name='inquiry_add_success'),
     path('inquiry/list/', views.inquiry_list, name='inquiry_list'),
     path('inquiry/<int:inquiry_id>/comment/list/', views.comment_list, name='comment_list'),
+    path('inquiry/<int:inquiry_id>/comment/add/', views.comment_add, name='comment_add'),
     
 ]

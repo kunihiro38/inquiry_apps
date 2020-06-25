@@ -6,33 +6,51 @@
 
 
 {% block content %}
-<h1>Id:{{ id }}  Comment list</h1>
-<table class="inquiry_list_table">
+<h1>Id:{{ inquiry.id }}  Comment list</h1>
+<table class="inquiry_table">
     <tr>
-        <th>Id</th>
-        <td>{{ id }}</td>
+        <th>Id:</th>
+        <td>{{ inquiry.id }}</td>
     </tr>
     <tr>
-        <th>Name</th>
+        <th>Name:</th>
         <td>{{ inquiry.name }}</td>
     </tr>
     <tr>
-        <th>Subject</th>
+        <th>Subject:</th>
         <td>{{ inquiry.subject }}</td>
     </tr>
     <tr>
-        <th>Message</th>
+        <th>Message:</th>
         <td>{{ inquiry.message }}</td>
     </tr>
     <tr>
-        <th>Email</th>
+        <th>Email:</th>
         <td>{{ inquiry.email }}</td>
     </tr>
     <tr>
-        <th>Updated</th>
-        <td>{{ inquiry.updated_at }}</td>
+        <th>Updated:</th>
+        <td>{{ inquiry.updated_at|date:"Y-m-j H:i" }}</td>
     </tr>
-</table>
+    <tr>
+        <th>InquiryStatus:</th>
+        <td class="inquiry_status">
+        <span>
+        {% if inquiry.inquiry_status == inquiry.InquiryStatus.Pending %}
+        Pending
+        {% elif inquiry.inquiry_status == inquiry.InquiryStatus.Ignore %}
+        Ignore
+        {% else %}
+        Completed
+        {% endif %}
+        </span>
+        </td>
+    </tr>
 
+</table>
+<hr>
+
+<h1>respond Id:{{ inquiry.id }}</h1>
+<h1><a href="{% url 'inquiry_apps:comment_add' inquiry.id %}">respond!</a></h1>
 
 {% endblock %}

@@ -8,19 +8,18 @@
     <table class="inquiry_table">
         {% csrf_token %}
         <tr>
-            <th>Name：
-            </th>
-            <td>{{ form.name }}</td>
+            <th>Name：</th>
+            <td>{{ form.name }}{{ form.name.errors }}</td>
         </tr>
             <th>Email：</th>
-            <td>{{ form.email }}</td>
+            <td>{{ form.email }}{{ form.email.errors }}</td>
         <tr>
             <th>Subject：</th>
-            <td>{{ form.subject }}</td>
+            <td>{{ form.subject }}{{ form.subject.errors }}</td>
         </tr>
         <tr>
             <th>Message：</th>
-            <td>{{ form.message }}</td>
+            <td>{{ form.message }}{{ form.message.errors }}</td>
         </tr>
         <tr>
             <th></th>
