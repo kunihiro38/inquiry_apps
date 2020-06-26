@@ -1,4 +1,5 @@
 from django import forms
+from .models import InquiryComment
 
 class InquiryAddForm(forms.Form):
     name = forms.CharField(required=True,
@@ -70,14 +71,13 @@ class InquiryFindForm(forms.Form):
         return word
 
 class CommentAddForm(forms.Form):
-    class PersonInCharge():
-        Andrew = 0
-        William = 1
-        Emma = 2
+    # 0626import でmodelsから持ってくる
     PERSON_IN_CHARGE_CHOICES = (
-        (PersonInCharge.Andrew, 'Andrew'),
-        (PersonInCharge.William, 'William'),
-        (PersonInCharge.Emma, 'Emma'),
+        ("", ""),
+        # (InquiryComment.PersonInCharge.NotSelected, '--------'),
+        (InquiryComment.PersonInCharge.Andrew, 'Andrew'),
+        (InquiryComment.PersonInCharge.William, 'William'),
+        (InquiryComment.PersonInCharge.Emma, 'Emma'),
     )
     person_in_charge = forms.fields.ChoiceField(
                                         choices = PERSON_IN_CHARGE_CHOICES,

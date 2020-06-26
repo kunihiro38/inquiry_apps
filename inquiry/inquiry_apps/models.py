@@ -39,6 +39,9 @@ class InquiryComment(models.Model):
     class Meta:
         db_table = 'inquiry_comment'
     
+    inquiry_id = models.IntegerField(verbose_name='name',
+                                        max_length=20)
+
     class PersonInCharge():
         Andrew = 0
         William = 1
