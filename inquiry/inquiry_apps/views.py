@@ -119,7 +119,10 @@ def inquiry_list(request):
 @require_http_methods(['GET'])
 def comment_list(request, inquiry_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
+    qs = InquiryComment.objects.filter(inquiry_id=inquiry_id).order_by('id').reverse()
+
     context = {
+        'comment': qs,
         'inquiry': inquiry,
     }
     return render(request, 'inquiry_apps/comment_list.html', context)
@@ -149,3 +152,14 @@ def comment_add(request, inquiry_id):
     template = loader.get_template('inquiry_apps/comment_add/comment_add.html')
     return HttpResponse(template.render(context, request))
     # return render(request, 'inquiry_apps/comment_add/comment_add.html', context)
+
+
+# @require_http_methods(['GET', 'POST')
+# def comment_delete(request, inquiry_id, comment_id):
+#     pass
+
+
+# @require_http_methods(['GET'])
+# def comment_delete_success(request):
+#     pass
+

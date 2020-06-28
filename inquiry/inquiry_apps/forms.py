@@ -15,7 +15,7 @@ class InquiryAddForm(forms.Form):
                                         'placeholder': 'input some words',
                                     }
                                 ),)
-    
+
     def clean(self):
         cleaned_data = super().clean()
         return cleaned_data
@@ -40,7 +40,7 @@ class InquiryFindForm(forms.Form):
     id = forms.IntegerField(required=False,
                                 min_value=1,
                                 max_value=100000)
-    email = forms.EmailField(required=False,
+    email = forms.CharField(required=False,
                                 max_length=255)
     page = forms.IntegerField(required=False,
                                 max_value=10000,
@@ -74,7 +74,6 @@ class CommentAddForm(forms.Form):
     # 0626import でmodelsから持ってくる
     PERSON_IN_CHARGE_CHOICES = (
         ("", ""),
-        # (InquiryComment.PersonInCharge.NotSelected, '--------'),
         (InquiryComment.PersonInCharge.Andrew, 'Andrew'),
         (InquiryComment.PersonInCharge.William, 'William'),
         (InquiryComment.PersonInCharge.Emma, 'Emma'),
@@ -107,3 +106,9 @@ class CommentAddForm(forms.Form):
     def clean_comment(self):
         comment = self.cleaned_data['comment']
         return comment
+
+
+
+
+
+

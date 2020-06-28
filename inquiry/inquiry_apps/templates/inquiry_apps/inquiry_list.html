@@ -72,7 +72,7 @@
             <td><div class="container"><span>Subject</span><span>{{ inquiry.subject }}</span></div></td>
             <td><div class="container"><span>Message</span><span>{{ inquiry.message }}</span></div></td>
             <td><div class="container"><span>Email</span><span>{{ inquiry.email }}</span></div></td>
-            <td><div class="container"><span>Updated</span><span>{{ inquiry.updated_at|date:"Y-m-j H:i " }}</span></div></td>
+            <td><div class="container"><span>Updated</span><span>{{ inquiry.updated_at|date:"j/m/Y H:i " }}</span></div></td>
             <td><div class="container"><span>Detail</span><span><a href="{% url 'inquiry_apps:comment_list' inquiry.id %}">detail</a></span></div></td>
             <td>
                 <div class="container"><span>Status</span><span>
