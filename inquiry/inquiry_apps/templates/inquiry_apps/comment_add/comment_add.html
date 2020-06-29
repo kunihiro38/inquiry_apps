@@ -53,12 +53,16 @@
 {% csrf_token %}
     <table class="inquiry_table">
     <tr>
-        <th>Person in Charge:</th>
+        <th>Person in charge:</th>
         <td>{{ form.person_in_charge }}{{ form.person_in_charge.errors }}</td>
     </tr>
     <tr>
         <th>Email:</th>
         <td>{{ form.email }}{{ form.email.erros }}</td>
+    </tr>
+    <tr>
+        <th>Inquiry status:</th>
+        <td>{{ form.inquiry_status }}{{ form.inquiry_status.errors }}</td>
     </tr>
     <tr>
         <th>Comment:</th>

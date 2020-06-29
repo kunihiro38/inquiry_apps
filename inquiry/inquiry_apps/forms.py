@@ -70,7 +70,7 @@ class InquiryFindForm(forms.Form):
         word = self.cleaned_data['word']
         return word
 
-class CommentAddForm(forms.Form):
+class AddInquiryCommentForm(forms.Form):
     # 0626import でmodelsから持ってくる
     PERSON_IN_CHARGE_CHOICES = (
         ("", ""),
@@ -84,6 +84,11 @@ class CommentAddForm(forms.Form):
                                         widget=forms.widgets.Select,)
     email = forms.EmailField(required=True,
                                 max_length=255,)
+
+    inquiry_status = forms.fields.ChoiceField(
+                                    choices = InquiryComment.INQUIRY_STATUS_CHOICES,
+                                    widget=forms.widgets.Select,
+                                    )
     comment = forms.CharField(required=True,
                             max_length=1000,
                             widget=forms.Textarea(
@@ -102,6 +107,10 @@ class CommentAddForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data['email']
         return email
+
+    def clean_inquiry_status(self):
+        inquiry_status = self.cleaned_data['inquiry_status']
+        return inquiry_status
     
     def clean_comment(self):
         comment = self.cleaned_data['comment']

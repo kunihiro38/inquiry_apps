@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 class Inquiry(models.Model):
@@ -38,9 +39,8 @@ class Inquiry(models.Model):
 class InquiryComment(models.Model):
     class Meta:
         db_table = 'inquiry_comment'
-    
-    inquiry_id = models.IntegerField(verbose_name='name',
-                                        max_length=20)
+    inquiry_id = models.IntegerField(verbose_name='inquiry_id',
+                                        null=True,)
 
     class PersonInCharge():
         Andrew = 0
@@ -59,6 +59,10 @@ class InquiryComment(models.Model):
                                     max_length=255)
     created_at = models.DateTimeField(verbose_name='created_at',
                                         auto_now_add=True,)
+
+    updated_at = models.DateTimeField(verbose_name='updated_at',
+                                        auto_now=True,)
+
     class InquiryStatus():
         Pending = 0
         Ignore = 1

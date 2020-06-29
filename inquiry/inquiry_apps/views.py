@@ -6,8 +6,8 @@ from django.template import loader
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 from django.views.decorators.http import require_http_methods
-from .forms import InquiryAddForm, InquiryFindForm, CommentAddForm
-from .models import Inquiry
+from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm
+from .models import Inquiry, InquiryComment
 
 
 @require_http_methods(['GET'])
@@ -128,22 +128,27 @@ def comment_list(request, inquiry_id):
     return render(request, 'inquiry_apps/comment_list.html', context)
 
 
-@require_http_methods(['GET'])
+@require_http_methods(['GET', 'POST'])
 def comment_add(request, inquiry_id):
-    if request.method == 'GET':
-        inquiry = get_object_or_404(Inquiry, id=inquiry_id)
-        form = CommentAddForm()
-
+    inquiry = get_object_or_404(Inquiry, id=inquiry_id)
+    if request.method != 'POST':
+        form = AddInquiryCommentForm()
     else:
-        form = CommentAddForm(request.POST)
+        form = AddInquiryCommentForm(request.POST)
         if form.is_valid():
             inquiry_comment = InquiryComment(
-                person_in_charge=form.cleaned_data['person_in_charge'],
-                email=form.cleaned_data['email'],
+                inquiry_id=inquiry_id,
+                pic=form.cleaned_data['person_in_charge'],
+                pic_email=form.cleaned_data['email'],
+                inquiry_status=form.cleaned_data['inquiry_status'],
                 comment=form.cleaned_data['comment'],
             )
             # inquiry_comment.save()
-            return HttpResponseRedirect(reverse('inquiry_apps:comment_add_success'))
+            inquiry = Inquiry.objects.get(id=inquiry_id)
+            inquiry.inquiry_status = form.cleaned_data['inquiry_status']
+            inquiry.save()
+            return HttpResponseRedirect(reverse('inquiry_apps:comment_add_success',
+                                                args=(inquiry_id,)))
 
     context = {
         'inquiry': inquiry,
@@ -152,6 +157,15 @@ def comment_add(request, inquiry_id):
     template = loader.get_template('inquiry_apps/comment_add/comment_add.html')
     return HttpResponse(template.render(context, request))
     # return render(request, 'inquiry_apps/comment_add/comment_add.html', context)
+
+def comment_add_success(request, inquiry_id):
+    inquiry = get_object_or_404(Inquiry, id=inquiry_id)
+    qs = InquiryComment.objects.order_by('updated_at').reverse()
+    context = {
+        'comment_id': qs[0].id,
+    }
+    template = loader.get_template('inquiry_apps/comment_add/comment_add_success.html')
+    return HttpResponse(template.render(context, request))
 
 
 # @require_http_methods(['GET', 'POST')
