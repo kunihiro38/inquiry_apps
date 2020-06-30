@@ -47,12 +47,12 @@ class InquiryComment(models.Model):
         William = 1
         Emma = 2
     
-    PERSON_IN_CHARGE_CHOICES = (
+    PERSON_IN_CHARGE_CHOICES = [
         (PersonInCharge.Andrew, 'Andrew'),
         (PersonInCharge.William, 'William'),
         (PersonInCharge.Emma, 'Emma'),
-    )
-    pic = models.CharField(verbose_name='person_in_charge',
+    ]
+    pic = models.IntegerField(verbose_name='person_in_charge',
                             choices=PERSON_IN_CHARGE_CHOICES,
                             max_length=20,)
     pic_email = models.EmailField(verbose_name='pic_email',
@@ -63,15 +63,10 @@ class InquiryComment(models.Model):
     updated_at = models.DateTimeField(verbose_name='updated_at',
                                         auto_now=True,)
 
-    class InquiryStatus():
-        Pending = 0
-        Ignore = 1
-        Completed = 2
-
     INQUIRY_STATUS_CHOICES = [
-        (InquiryStatus.Pending, 'Pending'),
-        (InquiryStatus.Ignore, 'Ignore'),
-        (InquiryStatus.Completed, 'Completed'),
+        (Inquiry.InquiryStatus.Pending, 'Pending'),
+        (Inquiry.InquiryStatus.Ignore, 'Ignore'),
+        (Inquiry.InquiryStatus.Completed, 'Completed'),
     ] 
 
     inquiry_status = models.IntegerField(

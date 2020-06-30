@@ -54,11 +54,11 @@
 <h1><a href="{% url 'inquiry_apps:comment_add' inquiry.id %}">respond!</a></h1>
 <hr>
 <h1>{{ comment.id }}: Comment list</h1>
-<table>
+<table class="comment_table">
     <thead>
         <tr>
             <th>Id</th>
-            <th>Person in charge</th>
+            <th>PIC</th>
             <th>Pic_email</th>
             <th>Created_at</th>
             <th>Comment</th>
@@ -66,13 +66,26 @@
         </tr>
     </thead>
     <tbody>
+        {% for comment in comment_list %}
         <tr>
             <td>{{ comment.id }}</td>
-            <td>{{ comment.pic }}</td>
+            <td>
+            out of order
+            <!-- {{ InquiryComment.PersonInCharge.Andrew }}
+            {% if comment.pic == qs.PersonInCharge.Andrew %}
+            Andrew
+            {% elif comment.pic == InquiryComment.PersonInCharge.William %}
+            William
+            {% else %}
+            Emma
+            {% endif %} -->
+            </td>
             <td>{{ comment.pic_email }}</td>
             <td>{{ comment.created_at }}</td>
+            <td>{{ comment.comment }}</td>
             <td><a href="">delete</a></td>
         </tr>
+        {% endfor %}
     </tbody>
 </table>
 

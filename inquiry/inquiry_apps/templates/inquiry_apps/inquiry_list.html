@@ -37,9 +37,14 @@
 
 
 <hr>
+
 {% if inquiries_page.has_previous %}
 <a href="{{ prev_page_href }}">◀︎Prev</a>
 {% endif %}
+
+
+
+
 {% for num in inquiries_page.paginator.page_range %}
 {% if inquiries_page.number == num %}
 <span>{{ num }}</span>
@@ -47,6 +52,7 @@
 <a href="?email={{ search_email }}&page={{ num }}">{{ num }}</a>
 {% endif %}
 {% endfor %}
+
 {% if inquiries_page.has_next %}
 <a href="{{ next_page_href }}">Next▶︎</a>
 {% endif %}
@@ -90,6 +96,26 @@
     </tbody>
 </table>
 
+{% if not inquiries_page.object_list %}
+<h1>Data does not exist!</h1>
+{% endif %}
+
+{% if inquiries_page.has_previous %}
+<a href="{{ prev_page_href }}">◀︎Prev</a>
+{% endif %}
+
+{% for num in inquiries_page.paginator.page_range %}
+{% if inquiries_page.number == num %}
+<span>{{ num }}</span>
+{% else %}
+<a href="?email={{ search_email }}&page={{ num }}">{{ num }}</a>
+{% endif %}
+{% endfor %}
+
+
+{% if inquiries_page.has_next %}
+<a href="{{ next_page_href }}">Next▶︎</a>
+{% endif %}
 
 
 {% endblock %}

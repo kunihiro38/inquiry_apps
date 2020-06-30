@@ -111,7 +111,6 @@ def inquiry_list(request):
         'next_page_href': next_page_href,
         'prev_page_href': prev_page_href,
     }
-
     template = loader.get_template('inquiry_apps/inquiry_list.html')
     return HttpResponse(template.render(context, request))
     # return render(request, 'inquiry_apps/inquiry_list.html', context)
@@ -122,9 +121,10 @@ def comment_list(request, inquiry_id):
     qs = InquiryComment.objects.filter(inquiry_id=inquiry_id).order_by('id').reverse()
 
     context = {
-        'comment': qs,
         'inquiry': inquiry,
+        'comment_list': qs,
     }
+    html側でPICを表示できるように
     return render(request, 'inquiry_apps/comment_list.html', context)
 
 
