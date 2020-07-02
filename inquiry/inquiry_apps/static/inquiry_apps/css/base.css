@@ -94,6 +94,15 @@ h1{
     margin: 10px 0;
 }
 
+
+.inquiry_add_comment_proceed{
+    display:inline;
+    background: #aaaaaa;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 20px;
+}
+
 /* table */
 table tr td{
     padding: 10px;

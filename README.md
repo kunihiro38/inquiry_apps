@@ -11,6 +11,7 @@ Technology implemented
 - responsive
 - CRUD
 - relationship
+- Django Template
 - create some tests
 
 - validation

@@ -124,7 +124,7 @@ def comment_list(request, inquiry_id):
         'inquiry': inquiry,
         'comment_list': qs,
     }
-    html側でPICを表示できるように
+    # html側でPICを表示できるように
     return render(request, 'inquiry_apps/comment_list.html', context)
 
 
@@ -168,10 +168,10 @@ def comment_add_success(request, inquiry_id):
     return HttpResponse(template.render(context, request))
 
 
-# @require_http_methods(['GET', 'POST')
-# def comment_delete(request, inquiry_id, comment_id):
-#     pass
-
+@require_http_methods(['GET', 'POST'])
+def comment_delete(request, inquiry_id, comment_id):
+    return render(request, 'inquiry_apps/comment_delete/comment_delete.html')
+                            
 
 # @require_http_methods(['GET'])
 # def comment_delete_success(request):

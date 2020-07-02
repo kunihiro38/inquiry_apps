@@ -6,7 +6,7 @@
 
 
 {% block content %}
-<h1>Id:{{ inquiry.id }}  Comment list</h1>
+<h1>Id:{{ inquiry.id }}</h1>
 <table class="inquiry_table">
     <tr>
         <th>Id:</th>
@@ -49,19 +49,21 @@
 
 </table>
 <hr>
-
 <h1>respond Id:{{ inquiry.id }}</h1>
-<h1><a href="{% url 'inquiry_apps:comment_add' inquiry.id %}">respond!</a></h1>
+<h2 class='inquiry_add_comment_proceed'><a href="{% url 'inquiry_apps:comment_add' inquiry.id %}">+respond</a></h2>
+
 <hr>
-<h1>{{ comment.id }}: Comment list</h1>
+<h1>Id:{{ inquiry.id }}-Comment list</h1>
 <table class="comment_table">
     <thead>
         <tr>
             <th>Id</th>
             <th>PIC</th>
             <th>Pic_email</th>
-            <th>Created_at</th>
+            <th>Updated_at</th>
+            <th>Status</th>
             <th>Comment</th>
+            <th>Edit</th>
             <th>delete</th>
         </tr>
     </thead>
@@ -70,20 +72,20 @@
         <tr>
             <td>{{ comment.id }}</td>
             <td>
-            out of order
-            <!-- {{ InquiryComment.PersonInCharge.Andrew }}
-            {% if comment.pic == qs.PersonInCharge.Andrew %}
+            {% if comment.pic == comment.PersonInCharge.Andrew %}
             Andrew
-            {% elif comment.pic == InquiryComment.PersonInCharge.William %}
+            {% elif comment.pic == comment.PersonInCharge.William %}
             William
             {% else %}
             Emma
-            {% endif %} -->
+            {% endif %}
             </td>
             <td>{{ comment.pic_email }}</td>
-            <td>{{ comment.created_at }}</td>
+            <td>{{ comment.updated_at }}</td>
+            <td>Status""</td>
             <td>{{ comment.comment }}</td>
-            <td><a href="">delete</a></td>
+            <td>Edit""</td>
+            <td><a href="{% url 'inquiry_apps:comment_delete' inquiry.id comment.id %}">delete</a></td>
         </tr>
         {% endfor %}
     </tbody>
