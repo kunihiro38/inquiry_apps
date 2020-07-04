@@ -82,8 +82,16 @@
             </td>
             <td>{{ comment.pic_email }}</td>
             <td>{{ comment.updated_at }}</td>
-            <td>Status""</td>
-            <td>{{ comment.comment }}</td>
+            <td>
+            {% if comment.inquiry_status == inquiry.InquiryStatus.Pending%}
+            Pending
+            {% elif comment.inquiry_status == inquiry.InquiryStatus.Ignore %}
+            Ignore
+            {% else %}
+            Completed
+            {% endif %}
+            </td>
+            <td>{{ comment.comment|truncatechars:150 }}</td>
             <td>Edit""</td>
             <td><a href="{% url 'inquiry_apps:comment_delete' inquiry.id comment.id %}">delete</a></td>
         </tr>

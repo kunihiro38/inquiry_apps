@@ -143,7 +143,7 @@ def comment_add(request, inquiry_id):
                 inquiry_status=form.cleaned_data['inquiry_status'],
                 comment=form.cleaned_data['comment'],
             )
-            # inquiry_comment.save()
+            inquiry_comment.save()
             inquiry = Inquiry.objects.get(id=inquiry_id)
             inquiry.inquiry_status = form.cleaned_data['inquiry_status']
             inquiry.save()
@@ -160,9 +160,10 @@ def comment_add(request, inquiry_id):
 
 def comment_add_success(request, inquiry_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
-    qs = InquiryComment.objects.order_by('updated_at').reverse()
+    # qs = InquiryComment.objects.order_by('updated_at').reverse()
     context = {
-        'comment_id': qs[0].id,
+        'inquiry_id': inquiry_id,
+        # 'comment_id': qs[0].id,
     }
     template = loader.get_template('inquiry_apps/comment_add/comment_add_success.html')
     return HttpResponse(template.render(context, request))
@@ -170,6 +171,10 @@ def comment_add_success(request, inquiry_id):
 
 @require_http_methods(['GET', 'POST'])
 def comment_delete(request, inquiry_id, comment_id):
+    inquiry = get_object_or_404(Inquiry, id=inquiry_id)
+    comment = get_object_or_404(InquiryComment, id=comment_id)
+    0704 restart here!
+    # template = loader.get_template('inquiry_apps/comment_delete/comment_delete.html')
     return render(request, 'inquiry_apps/comment_delete/comment_delete.html')
                             
 
