@@ -115,14 +115,34 @@ def inquiry_list(request):
     return HttpResponse(template.render(context, request))
     # return render(request, 'inquiry_apps/inquiry_list.html', context)
 
+
+def _paginator(request, qs):
+    paginator = Paginator(qs, 5)
+    page = request.GET.get('page', 1)
+
+    try:
+        inquiry_lists = paginator.page(page)
+    except PageNotAnInteger:
+        inquiry_lists = paginator.page(1)
+    except EmptyPage:
+        inquiry_lists = paginator.page(paginator.num_pages)
+    return inquiry_lists
+
+
+
 @require_http_methods(['GET'])
 def comment_list(request, inquiry_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
     qs = InquiryComment.objects.filter(inquiry_id=inquiry_id).order_by('id').reverse()
+    inquiry_comments = []
+    for p in qs:
+        inquiry_comments.append(p)
+    
+    inquiry_comments = _paginator(request, inquiry_comments)
 
     context = {
         'inquiry': inquiry,
-        'comment_list': qs,
+        'inquiry_comments': inquiry_comments,
     }
     # html側でPICを表示できるように
     return render(request, 'inquiry_apps/comment_list.html', context)
@@ -170,15 +190,49 @@ def comment_add_success(request, inquiry_id):
 
 
 @require_http_methods(['GET', 'POST'])
-def comment_delete(request, inquiry_id, comment_id):
+def delete_comment(request, inquiry_id, comment_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
-    comment = get_object_or_404(InquiryComment, id=comment_id)
-    0704 restart here!
-    # template = loader.get_template('inquiry_apps/comment_delete/comment_delete.html')
-    return render(request, 'inquiry_apps/comment_delete/comment_delete.html')
-                            
+    inquiry_comment = get_object_or_404(InquiryComment, id=comment_id)
 
-# @require_http_methods(['GET'])
-# def comment_delete_success(request):
-#     pass
+    if inquiry.id != inquiry_comment.inquiry_id:
+        raise Http404('No Inquiry matched the given query.')
+
+    if request.method == 'POST':
+        inquiry_comment.delete()
+        return HttpResponseRedirect(reverse(
+            'inquiry_apps:delete_comment_success',
+            args=(inquiry_id,))
+        )
+
+    context = {
+        'inquiry_comment': inquiry_comment 
+    }
+    template = loader.get_template('inquiry_apps/comment_delete/delete_comment.html')
+    return HttpResponse(template.render(context, request))
+
+
+@require_http_methods(['GET'])
+def delete_comment_success(request, inquiry_id):
+    inquiry = get_object_or_404(Inquiry, id=inquiry_id)
+    context = {
+        'inquiry': inquiry,
+    }
+
+    return render(request, 'inquiry_apps/comment_delete/delete_comment_success.html', context)
+
+
+@require_http_methods(['GET', 'POST'])
+def edit_comment(request, inquiry_id, comment＿id):
+    inquiry = get_object_or_404(Inquiry, id=inquiry_id)
+    inquiry_comment = get_object_or_404(InquiryComment, id=comment_id)
+    if inquiry.id != inquiry_comment.inquiry_id:
+        raise Http404('No Inquiry matched the given query')
+
+    context = {
+        'inquiry': inquiry,
+    }
+
+    return render(request, 'inquiry_apps/edit_comment/edit_comment.html', context)
+
+
 

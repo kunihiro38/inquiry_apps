@@ -1,0 +1,43 @@
+{% extends 'inquiry_apps/base.html' %}
+{% block page_title %}Comment delete{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<h1>Are you sure to delete?</h1>
+<table class="delete-inquiry-comment-table">
+    <tr>
+        <th>Inquiry_Id:</th>
+        <td>{{ inquiry_comment.id }}</td>
+    </tr>
+    <tr>
+        <th>Person_in_charge:</th>
+        <td>{{ inquiry_comment.pic }}</td>
+    </tr>
+    <tr>
+        <th>Pic_email:</th>
+        <td>{{ inquiry_comment.pic_email }}</td>
+    </tr>
+    <tr>
+        <th>Created_at:</th>
+        <td>{{ inquiry_comment.created_at }}</td>
+    </tr>
+    <tr>
+        <th>Updated_at:</th>
+        <td>{{ inquiry_comment.updated_at }}</td>
+    </tr>
+    <tr>
+        <th>Comment:</th>
+        <td>{{ inquiry_comment.comment}}</td>
+    </tr>
+    <tr>
+        <th></th>
+        <td><form action="" method="POST">
+            {% csrf_token %}
+            <button type="sbumit" class="btn">delete</button>
+        </form></td>
+    </tr>
+
+</table>
+{% endblock %}

@@ -11,7 +11,7 @@ urlpatterns = [
     path('inquiry/<int:inquiry_id>/comment/list/', views.comment_list, name='comment_list'),
     path('inquiry/<int:inquiry_id>/comment/add/', views.comment_add, name='comment_add'),
     path('inquiry/<int:inquiry_id>/comment/add/success/', views.comment_add_success, name='comment_add_success'),
-    path('inquiry/<int:inquiry_id>/comment/<int:comment_id>/delete/', views.comment_delete, name='comment_delete')
-    # path('inquiry/<int:inquiry_id>/comment/<int:comment_id>/delete/success/', views.comment_delete_success, name='comment_delete_success')
-
+    path('inquiry/<int:inquiry_id>/comment/<int:comment_id>/delete/', views.delete_comment, name='delete_comment'),
+    path('inquiry/<int:inquiry_id>/comment/delete/success/', views.delete_comment_success, name='delete_comment_success'),
+    path('inquiry/<int:inquiry_id>/comment/<int:comment_id>/edit/', views.edit_comment, name='edit_comment'),
 ]

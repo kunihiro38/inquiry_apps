@@ -77,4 +77,4 @@ class InquiryComment(models.Model):
     comment = models.CharField(max_length=500)
 
     def __str__(self):
-        return self.pic
+        return self.comment

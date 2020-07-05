@@ -53,6 +53,7 @@
 <h2 class='inquiry_add_comment_proceed'><a href="{% url 'inquiry_apps:comment_add' inquiry.id %}">+respond</a></h2>
 
 <hr>
+<h1　style='color:rgba(000,000,255,0.3)'>Processing status</h1>
 <h1>Id:{{ inquiry.id }}-Comment list</h1>
 <table class="comment_table">
     <thead>
@@ -64,40 +65,53 @@
             <th>Status</th>
             <th>Comment</th>
             <th>Edit</th>
-            <th>delete</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
-        {% for comment in comment_list %}
+        {% for inquiry_comment in inquiry_comments %}
         <tr>
-            <td>{{ comment.id }}</td>
+            <td>{{ inquiry_comment.id }}</td>
             <td>
-            {% if comment.pic == comment.PersonInCharge.Andrew %}
+            {% if inquiry_comment.pic == comment.PersonInCharge.Andrew %}
             Andrew
-            {% elif comment.pic == comment.PersonInCharge.William %}
+            {% elif inquiry_comment.pic == comment.PersonInCharge.William %}
             William
             {% else %}
             Emma
             {% endif %}
             </td>
-            <td>{{ comment.pic_email }}</td>
-            <td>{{ comment.updated_at }}</td>
+            <td>{{ inquiry_comment.pic_email }}</td>
+            <td>{{ inquiry_comment.updated_at }}</td>
             <td>
-            {% if comment.inquiry_status == inquiry.InquiryStatus.Pending%}
+            {% if inquiry_comment.inquiry_status == inquiry.InquiryStatus.Pending%}
             Pending
-            {% elif comment.inquiry_status == inquiry.InquiryStatus.Ignore %}
+            {% elif inquiry_comment.inquiry_status == inquiry.InquiryStatus.Ignore %}
             Ignore
             {% else %}
             Completed
             {% endif %}
             </td>
-            <td>{{ comment.comment|truncatechars:150 }}</td>
-            <td>Edit""</td>
-            <td><a href="{% url 'inquiry_apps:comment_delete' inquiry.id comment.id %}">delete</a></td>
+            <td>{{ inquiry_comment.comment|truncatechars:150 }}</td>
+            <td><a href="{% url 'inquiry_apps:edit_comment' inquiry.id inquiry_comment.id %}">Edit</a></td>
+            <td><a href="{% url 'inquiry_apps:delete_comment' inquiry.id inquiry_comment.id %}">Delete</a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
+{% if inquiry_comments.has_previous %}
+<a href="?page={{ inquiry_comments.previous_page_number }}">◀︎Prev</a>
+{% endif %}
+
+
+Page {{ inquiry_comments.number }} of {{ inquiry_comments.paginator.num_pages }}
+
+
+{% if inquiry_comments.has_next %}
+<a href="?page={{ inquiry_comments.next_page_number }}">▶︎Next</a>
+{% endif %}
+
 
 
 {% endblock %}
