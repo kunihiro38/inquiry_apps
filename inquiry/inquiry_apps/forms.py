@@ -118,6 +118,25 @@ class AddInquiryCommentForm(forms.Form):
 
 
 
+class EditInquiryCommentForm(forms.Form):
+    inquiry_status = forms.fields.ChoiceField(
+                                    choices = InquiryComment.INQUIRY_STATUS_CHOICES,
+                                    widget=forms.widgets.Select,
+                                    )
+    comment = forms.CharField(required=True,
+                                    max_length=1000,
+                                    widget=forms.Textarea()
+                                    )
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
 
+    def clean_inquiry_status(self):
+        inquiry_status = self.cleaned_data['inquiry_status']
+        return inquiry_status
+    
+    def clean_comment(self):
+        comment = self.cleaned_data['comment']
+        return comment
 
 

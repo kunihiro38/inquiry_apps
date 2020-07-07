@@ -14,4 +14,5 @@ urlpatterns = [
     path('inquiry/<int:inquiry_id>/comment/<int:comment_id>/delete/', views.delete_comment, name='delete_comment'),
     path('inquiry/<int:inquiry_id>/comment/delete/success/', views.delete_comment_success, name='delete_comment_success'),
     path('inquiry/<int:inquiry_id>/comment/<int:comment_id>/edit/', views.edit_comment, name='edit_comment'),
+    path('inquiry/<int:inquiry_id>/comment/<int:comment_id>/edit/success/', views.edit_comment_success, name='edit_comment_success'),
 ]

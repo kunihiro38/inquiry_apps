@@ -6,8 +6,49 @@
 {% endblock %}
 
 {% block content %}
-<h1>Id:{{ inquiry.id }} Edit Inquiry</h1>
+<h1>Edit Inquiry</h1>
+<small>※After updating, you will not be able to re-update 10 minutes after updating.</small>
+
+<form action="" method="POST">
+{% csrf_token %}
+<table class="inquiry_table">
+    <tr>
+        <th>Id:</th>
+        <td>{{ inquiry_comment.id }}</td>
+    </tr>
+    <tr>
+        <th>Person in charge:</th>
+        <td>{{ inquiry_comment.pic }}</td>
+    </tr>
+    <tr>
+        <th>Email:</th>
+        <td>{{ inquiry_comment.pic_email }}</td>
+    </tr>
+    <tr>
+        <th>Created at:</th>
+        <td>{{ inquiry_comment.created_at|date:"j/m/Y H:i " }}</td>
+    </tr>
+    <tr>
+        <th>Updated at:</th>
+        <td>{{ inquiry_comment.updated_at|date:"j/m/Y H:i" }}</td>
+    </tr>
+    <tr>
+        <th>Inquiry status:</th>
+        <td>{{ form.inquiry_status }}{{ form.inquiry_status.errors }}</td>
+    </tr>
+    <tr>
+        <th>Comment:</th>
+        <td>{{ form.comment }}{{ form.inquiry_comment.errors }}</td>
+    </tr>
+    <tr>
+        <th></th>
+        <td>
+            <button type="submit" class="btn">Update</button>
+        </td>
+    </tr>
+</table>
 
 
+</form>
 
 {% endblock %}

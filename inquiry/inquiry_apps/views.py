@@ -6,7 +6,7 @@ from django.template import loader
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 from django.views.decorators.http import require_http_methods
-from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm
+from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm, EditInquiryCommentForm
 from .models import Inquiry, InquiryComment
 
 
@@ -228,11 +228,42 @@ def edit_comment(request, inquiry_id, comment＿id):
     if inquiry.id != inquiry_comment.inquiry_id:
         raise Http404('No Inquiry matched the given query')
 
+    if request.method != 'POST':
+        item = {
+            'inquiry_status': inquiry_comment.inquiry_status,
+            'comment': inquiry_comment.comment,
+        }
+        form = EditInquiryCommentForm(initial=item)
+    
+    else:
+        form = EditInquiryCommentForm(
+            # inquiry_id=inquiry_id,
+            # comment_id=comment_id,
+            data=request.POST)
+        if form.is_valid():
+            inquiry_comment = InquiryComment.objects.get(id=comment_id)
+            inquiry_comment = InquiryComment(
+                inquiry_status=form.cleaned_data['inquiry_status'],
+                comment=form.cleaned_data['comment'], 
+            )
+            # inquiry_comment.save()
+
+            inquiry.inquiry_status = form.cleaned_data['inquiry_status']
+            # inquiry_status.save()
+            ここのところprintで出力して調べる
+            # return HttpResponseRedirect(reverse(
+            #     'inquiry_apps:edit_comment_success', args=(inquiry.id, inquiry_comment.id,)))
+
+
     context = {
+        'form': form,
         'inquiry': inquiry,
+        'inquiry_comment': inquiry_comment,
     }
 
     return render(request, 'inquiry_apps/edit_comment/edit_comment.html', context)
 
 
+def edit_comment_success(request):
+    return render(request, 'inquiry_apps/edit_comment/edit_comment_success.html')
 
