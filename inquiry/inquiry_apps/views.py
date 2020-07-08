@@ -250,9 +250,8 @@ def edit_comment(request, inquiry_id, comment＿id):
 
             inquiry.inquiry_status = form.cleaned_data['inquiry_status']
             # inquiry_status.save()
-            ここのところprintで出力して調べる
-            # return HttpResponseRedirect(reverse(
-            #     'inquiry_apps:edit_comment_success', args=(inquiry.id, inquiry_comment.id,)))
+            return HttpResponseRedirect(reverse(
+                'inquiry_apps:edit_comment_success', args=(inquiry_id, comment_id,)))
 
 
     context = {
@@ -264,6 +263,6 @@ def edit_comment(request, inquiry_id, comment＿id):
     return render(request, 'inquiry_apps/edit_comment/edit_comment.html', context)
 
 
-def edit_comment_success(request):
+def edit_comment_success(request, inquiry_id, comment_id):
     return render(request, 'inquiry_apps/edit_comment/edit_comment_success.html')
 
