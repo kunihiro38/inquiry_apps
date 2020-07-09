@@ -132,11 +132,12 @@ class EditInquiryCommentForm(forms.Form):
         return cleaned_data
 
     def clean_inquiry_status(self):
-        inquiry_status = self.cleaned_data['inquiry_status']
+        inquiry_status = int(self.cleaned_data['inquiry_status'])
+
         return inquiry_status
     
     def clean_comment(self):
         comment = self.cleaned_data['comment']
+        print('comment')
+        print(comment)
         return comment
-
-

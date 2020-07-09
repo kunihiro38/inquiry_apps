@@ -233,7 +233,10 @@ def edit_comment(request, inquiry_id, comment＿id):
             'inquiry_status': inquiry_comment.inquiry_status,
             'comment': inquiry_comment.comment,
         }
-        form = EditInquiryCommentForm(initial=item)
+        form = EditInquiryCommentForm(
+            # inquiry_id=inquiry.id,
+            # comment_id=inquiry_comment.id,
+            initial=item)
     
     else:
         form = EditInquiryCommentForm(
@@ -242,14 +245,18 @@ def edit_comment(request, inquiry_id, comment＿id):
             data=request.POST)
         if form.is_valid():
             inquiry_comment = InquiryComment.objects.get(id=comment_id)
-            inquiry_comment = InquiryComment(
-                inquiry_status=form.cleaned_data['inquiry_status'],
-                comment=form.cleaned_data['comment'], 
-            )
-            # inquiry_comment.save()
+            # inquiry_comment = InquiryComment(
+            #     inquiry_status=form.cleaned_data['inquiry_status'],
+            #     comment=form.cleaned_data['comment'], 
+            # )
+            inquiry_comment.inquiry_status = form.cleaned_data['inquiry_status']
+            inquiry_comment.comment = form.cleaned_data['comment']
+            # print(inquiry_comment.inquiry_status)
+            # print(inquiry_comment.comment)
+            inquiry_comment.save()
 
             inquiry.inquiry_status = form.cleaned_data['inquiry_status']
-            # inquiry_status.save()
+            inquiry.save()
             return HttpResponseRedirect(reverse(
                 'inquiry_apps:edit_comment_success', args=(inquiry_id, comment_id,)))
 
@@ -262,7 +269,10 @@ def edit_comment(request, inquiry_id, comment＿id):
 
     return render(request, 'inquiry_apps/edit_comment/edit_comment.html', context)
 
-
+@require_http_methods(['GET'])
 def edit_comment_success(request, inquiry_id, comment_id):
-    return render(request, 'inquiry_apps/edit_comment/edit_comment_success.html')
-
+    inquiry = get_object_or_404(Inquiry, id=inquiry_id)
+    context = {
+        'inquiry': inquiry,
+    }
+    return render(request, 'inquiry_apps/edit_comment/edit_comment_success.html', context)
