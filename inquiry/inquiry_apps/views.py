@@ -238,6 +238,7 @@ def edit_comment(request, inquiry_id, comment＿id):
             # comment_id=inquiry_comment.id,
             initial=item)
     
+    # ０７０９更新後10分はできませんとかその辺から
     else:
         form = EditInquiryCommentForm(
             # inquiry_id=inquiry_id,

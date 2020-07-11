@@ -55,7 +55,8 @@
 <hr>
 <h1　style='color:rgba(000,000,255,0.3)'>Processing status</h1>
 <h1>Id:{{ inquiry.id }}-Comment list</h1>
-<table class="comment_table">
+
+<table class="comment_list_table">
     <thead>
         <tr>
             <th>Id</th>
@@ -73,28 +74,31 @@
         <tr>
             <td>{{ inquiry_comment.id }}</td>
             <td>
-            {% if inquiry_comment.pic == comment.PersonInCharge.Andrew %}
-            Andrew
-            {% elif inquiry_comment.pic == comment.PersonInCharge.William %}
-            William
-            {% else %}
-            Emma
-            {% endif %}
+                <div class="container"><span>PIC</span>
+                    <span>{% if inquiry_comment.pic == comment.PersonInCharge.Andrew %}
+                    Andrew
+                    {% elif inquiry_comment.pic == comment.PersonInCharge.William %}
+                    William
+                    {% else %}
+                    Emma
+                    {% endif %}
+                    </span></div>
             </td>
-            <td>{{ inquiry_comment.pic_email }}</td>
-            <td>{{ inquiry_comment.updated_at }}</td>
-            <td>
-            {% if inquiry_comment.inquiry_status == inquiry.InquiryStatus.Pending%}
-            Pending
-            {% elif inquiry_comment.inquiry_status == inquiry.InquiryStatus.Ignore %}
-            Ignore
-            {% else %}
-            Completed
-            {% endif %}
+            <td><div class="container"><span>Pic_email</span><span>{{ inquiry_comment.pic_email }}</span></div></td>
+            <td><div class="container"><span>Updated_at</span><span>{{ inquiry_comment.updated_at }}</span></div></td>
+            <td><div class="container"><span>Status</span>
+                <span>{% if inquiry_comment.inquiry_status == inquiry.InquiryStatus.Pending%}
+                Pending
+                {% elif inquiry_comment.inquiry_status == inquiry.InquiryStatus.Ignore %}
+                Ignore
+                {% else %}
+                Completed
+                {% endif %}
+                </span></div>
             </td>
-            <td>{{ inquiry_comment.comment|truncatechars:150 }}</td>
-            <td><a href="{% url 'inquiry_apps:edit_comment' inquiry.id inquiry_comment.id %}">Edit</a></td>
-            <td><a href="{% url 'inquiry_apps:delete_comment' inquiry.id inquiry_comment.id %}">Delete</a></td>
+            <td><div class="container"><span>Comment</span><span>{{ inquiry_comment.comment|truncatechars:150 }}</span></div></td>
+            <td><div class="container"><a href="{% url 'inquiry_apps:edit_comment' inquiry.id inquiry_comment.id %}">Edit</a></div></td>
+            <td><div class="container"><a href="{% url 'inquiry_apps:delete_comment' inquiry.id inquiry_comment.id %}">Delete</a></div></td>
         </tr>
         {% endfor %}
     </tbody>
