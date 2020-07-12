@@ -13,8 +13,8 @@ Technology implemented
 - relationship
 - Django Template
 - create some tests
-
 - validation
+
 - Regular expression
 - pagination
 

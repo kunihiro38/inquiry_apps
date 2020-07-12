@@ -1,4 +1,5 @@
 import urllib.parse
+import datetime
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -234,27 +235,23 @@ def edit_comment(request, inquiry_id, comment＿id):
             'comment': inquiry_comment.comment,
         }
         form = EditInquiryCommentForm(
-            # inquiry_id=inquiry.id,
-            # comment_id=inquiry_comment.id,
+            inquiry_id=inquiry.id,
+            comment_id=inquiry_comment.id,
             initial=item)
-    
-    # ０７０９更新後10分はできませんとかその辺から
+
+
     else:
         form = EditInquiryCommentForm(
-            # inquiry_id=inquiry_id,
-            # comment_id=comment_id,
+            inquiry_id=inquiry_id,
+            comment_id=comment_id,
             data=request.POST)
         if form.is_valid():
             inquiry_comment = InquiryComment.objects.get(id=comment_id)
-            # inquiry_comment = InquiryComment(
-            #     inquiry_status=form.cleaned_data['inquiry_status'],
-            #     comment=form.cleaned_data['comment'], 
-            # )
             inquiry_comment.inquiry_status = form.cleaned_data['inquiry_status']
             inquiry_comment.comment = form.cleaned_data['comment']
-            # print(inquiry_comment.inquiry_status)
-            # print(inquiry_comment.comment)
+
             inquiry_comment.save()
+
 
             inquiry.inquiry_status = form.cleaned_data['inquiry_status']
             inquiry.save()

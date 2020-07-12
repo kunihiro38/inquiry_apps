@@ -1,5 +1,6 @@
 from django import forms
 from .models import InquiryComment
+from datetime import datetime, timezone, timedelta
 
 class InquiryAddForm(forms.Form):
     name = forms.CharField(required=True,
@@ -118,6 +119,8 @@ class AddInquiryCommentForm(forms.Form):
 
 
 
+
+
 class EditInquiryCommentForm(forms.Form):
     inquiry_status = forms.fields.ChoiceField(
                                     choices = InquiryComment.INQUIRY_STATUS_CHOICES,
@@ -127,17 +130,36 @@ class EditInquiryCommentForm(forms.Form):
                                     max_length=1000,
                                     widget=forms.Textarea()
                                     )
+
+
+    def __init__(self, inquiry_id, comment_id, *args, **kwargs):
+        # __init__設置理由は、
+        # ※After updating, you will not be able to re-update 10 minutes after updating.
+        # 上を発動させるために、modelのupdated_atを取得するために作成
+        # *args tuple
+        # **kwargs 辞書方オブジェクト
+
+        self.inquiry_id = inquiry_id
+        self.comment_id = comment_id
+        super().__init__(*args, **kwargs)
+
+
     def clean(self):
         cleaned_data = super().clean()
+        current_time_utc = datetime.now(timezone.utc)
+        qs = InquiryComment.objects.get(id=self.comment_id)
+        updated_at_plus_some_min = qs.updated_at + timedelta(minutes=(10))
+        if current_time_utc < updated_at_plus_some_min:
+            raise forms.ValidationError('After updating, you will not be able to re-update 10 minutes after updating.')
         return cleaned_data
 
     def clean_inquiry_status(self):
+        latest_inquiry_comment = InquiryComment.objects.get(id=self.comment_id)
         inquiry_status = int(self.cleaned_data['inquiry_status'])
-
+        if latest_inquiry_comment.inquiry_status == 2 and inquiry_status == 1:
+            raise forms.ValidationError('You cannot change from "Completed" to "Ignore"')
         return inquiry_status
     
     def clean_comment(self):
         comment = self.cleaned_data['comment']
-        print('comment')
-        print(comment)
         return comment
