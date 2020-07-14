@@ -1,0 +1,40 @@
+{% extends 'inquiry_apps/base.html' %}
+{% block page_title %}Inquiry list{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<h1>Inquiry list using ajax</h1>
+<form method="get">
+    <ul class="search_inquiry_form">
+        <li>
+            <label for="id">Id:</label>
+            <input type="number" name="id" min="1">
+        </li>
+        <li>
+            <label for="">Email:</label>
+            <input type="email" name="email">
+        </li>
+        <li>
+            <label for="">Page:</label>
+            <input type="number" name="page" min="1">
+        </li>
+        <li>
+            <label for="">Word:</label>
+            <input type="text" name="message">
+        </li>
+        <li>
+            <label for=""></label>
+            <span>※Word can find subject and message</span>
+        </li>
+        <li>
+            <label for=""></label>
+            <button type="submit" class="btn">Search</button>
+        </li>
+    </ul>
+</form>
+
+
+
+{% endblock %}

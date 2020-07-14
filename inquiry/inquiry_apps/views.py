@@ -130,6 +130,45 @@ def _paginator(request, qs):
     return inquiry_lists
 
 
+@require_http_methods(['GET'])
+def inquiry_list_ajax(request):
+    return render(request, 'inquiry_apps/inquiry_list_ajax/inquiry_list_ajax.html')
+
+
+@require_http_methods(['GET'])
+def inquiry_list_ajax_response(request):
+    qs = Inquiry.objects.order_by('updated_at').reverse()
+    form = InquiryFindForm(request.GET)
+    if form.is_valid():
+        id_int = form.cleaned_data['id']
+        email_str = form.cleaned_data['email']
+        page_int = form.cleaned_data['page']
+        word_str = form.cleaned_data['word']
+
+    if email_str is not None:
+        qs.filter(email__contains=email_str)
+
+    if id_int is not None:
+        qs.filter(id=id_int)
+
+    if word_str is not None:
+        qs.filter(message__contains=word_str)
+
+    paginator = Paginator(qs, 5)
+    try:
+        inquiries_page = paginator.page(page_int)
+    except:
+        raise Http404('Page does not exist')
+
+    context = {
+        'inquiry_page': inquiry_page,
+    }
+
+    次はjqueryのajaxでデータをゴリゴリ書いていく
+
+    template = loader.get_template('inquiry_apps/inquiry_list_ajax/inquiry_list_ajax_response.html')
+    return HttpReponse(template.render(context, request))
+
 
 @require_http_methods(['GET'])
 def comment_list(request, inquiry_id):
