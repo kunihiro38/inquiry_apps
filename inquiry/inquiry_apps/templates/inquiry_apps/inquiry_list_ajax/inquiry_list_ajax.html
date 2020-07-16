@@ -34,7 +34,11 @@
         </li>
     </ul>
 </form>
+<div id="id_div_ajax_response"></div>
 
 
-
+{% endblock %}
+{% load static %}
+{% block extra_js %}
+<script src="{% static 'inquiry_apps/js/inquiry_list_ajax_response.js' %}"></script>
 {% endblock %}

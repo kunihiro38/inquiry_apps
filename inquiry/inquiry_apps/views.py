@@ -164,8 +164,6 @@ def inquiry_list_ajax_response(request):
         'inquiry_page': inquiry_page,
     }
 
-    次はjqueryのajaxでデータをゴリゴリ書いていく
-
     template = loader.get_template('inquiry_apps/inquiry_list_ajax/inquiry_list_ajax_response.html')
     return HttpReponse(template.render(context, request))
 
