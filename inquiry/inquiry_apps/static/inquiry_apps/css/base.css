@@ -144,6 +144,55 @@ table tr .inquiry_status span{
     opacity: .7;
 }
 
+
+/* index */
+.btn-border{
+    display: inline-block;
+    max-width: 235px;
+    text-align: left;
+    border: 2px solid rgb(226, 141, 108);
+    font-size: 20px;
+    color: rgb(226, 141, 108);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 37px 16px;
+    margin: 10px 10px;
+    border-radius: 4px;
+    transition: .4s;
+}
+
+.btn-border:hover{
+    background-color: rgb(226, 141, 108);
+    border-color: rgb(226, 141, 108);
+    color: #fff;
+}
+
+.btn-border-manage{
+    display: inline-block;
+    max-width: 235px;
+    text-align: left;
+    border: 2px solid rgb(85, 119, 231);
+    font-size: 20px;
+    color: rgb(85, 119, 231);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 37px 16px;
+    margin: 10px 10px;
+    border-radius: 4px;
+    transition: .4s;
+}
+
+.btn-border-manage:hover{
+    background-color: rgb(85, 119, 231);
+    border-color:rgb(85, 119, 231);
+    color: #fff;
+}
+
+/* index */
+
+
+
+
 .footer {
     text-align: center;
 }
@@ -155,6 +204,8 @@ table tr .inquiry_status span{
     border-radius: 5px;
     padding: 0 20px;
 }
+
+
 
 
 

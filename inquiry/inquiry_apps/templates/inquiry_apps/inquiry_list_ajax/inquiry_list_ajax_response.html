@@ -1,5 +1,5 @@
 
-<table class="inquiries_page_table">
+<table class="inquiry_list_table">
     <thead>
         <tr>
             <th>Id</th>
@@ -12,6 +12,13 @@
             <th>Status</th>
         </tr>
     </thead>
+    <hr>
+    <div id="pager">
+        {% for num in inquiries_page.paginator.page_range %}
+        <a href="">{{ num }}</a>
+        {% endfor %}
+    </div>
+    <hr>
     <tbody>
         {% for inquiry in inquiries_page %}
         <tr>

@@ -2,6 +2,34 @@ from django import forms
 from .models import InquiryComment
 from datetime import datetime, timezone, timedelta
 
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(required=True,
+                                max_length=255,
+                                widget=forms.TextInput(
+                                    attrs={
+                                        'placeholder': 'User name'
+                                    }
+                                ),)
+    
+    password = forms.CharField(required=True,
+                                max_length=255,
+                                widget=forms.PasswordInput(
+                                    attrs={
+                                        'placeholder': 'Password'
+                                    }
+                                ))
+                                
+    def clean_username(self):
+        username = self.cleaned_data['username']
+
+        return username
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        return password
+
 class InquiryAddForm(forms.Form):
     name = forms.CharField(required=True,
                             max_length=255,)

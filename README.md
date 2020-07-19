@@ -18,3 +18,5 @@ Technology implemented
 - pagination
 - Ajax
 - pagination by Ajax
+- login
+- logout

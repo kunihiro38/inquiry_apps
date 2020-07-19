@@ -7,8 +7,49 @@ from django.template import loader
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 from django.views.decorators.http import require_http_methods
-from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm, EditInquiryCommentForm
+from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm, EditInquiryCommentForm, LoginForm
 from .models import Inquiry, InquiryComment
+
+# login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
+
+
+@require_http_methods(['GET', 'POST'])
+def inquiry_login(request):
+    if request.method != 'POST':
+        if str(request.user) != 'AnonymousUser':
+            form = ''
+        else:
+            word_in_advance = {
+                'username': '',
+                'password': '',
+            }
+            form = LoginForm(initial=word_in_advance)
+    
+    else:
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.clean_username()
+            password = form.clean_password()
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect(reverse('inquiry_apps:inquiry_list'))
+            else:
+                pass
+    context = {
+        'form': form,
+    }
+    return render(request, 'inquiry_apps/login.html', context)
+
+
+
+def inquiry_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('inquiry_apps:inquiry_list'))
 
 
 @require_http_methods(['GET'])
@@ -70,6 +111,7 @@ def _some_page_href(id, email, current_page, word):
     return '?' + '&'.join(params)
 
 
+@login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET'])
 def inquiry_list(request):
     qs = Inquiry.objects.order_by('-updated_at')
@@ -145,27 +187,27 @@ def inquiry_list_ajax_response(request):
         page_int = form.cleaned_data['page']
         word_str = form.cleaned_data['word']
 
-    if email_str is not None:
-        qs.filter(email__contains=email_str)
+    if email_str != None and email_str != '':
+        qs = qs.filter(email__contains=email_str)
 
     if id_int is not None:
-        qs.filter(id=id_int)
+        qs = qs.filter(id=id_int)
 
     if word_str is not None:
-        qs.filter(message__contains=word_str)
-
+        qs = qs.filter(message__contains=word_str)
+    
     paginator = Paginator(qs, 5)
     try:
         inquiries_page = paginator.page(page_int)
     except:
         raise Http404('Page does not exist')
-
+    
     context = {
-        'inquiry_page': inquiry_page,
+        'inquiries_page': inquiries_page,
     }
-
     template = loader.get_template('inquiry_apps/inquiry_list_ajax/inquiry_list_ajax_response.html')
-    return HttpReponse(template.render(context, request))
+    return HttpResponse(template.render(context, request))
+    # return render(request, 'inquiry_apps/inquiry_list_ajax/inquiry_list_ajax_response.html', context)
 
 
 @require_http_methods(['GET'])
