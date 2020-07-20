@@ -1,11 +1,10 @@
-{% extends 'inquiry_apps/base.html' %}
+{% extends 'inquiry_apps/base_non_login.html' %}
 {% block page_title %}login{% endblock %}
 
 {% block header %}
 {% endblock %}
 
 {% block content %}
-{{ user }}
 <form action="" method="POST" class="login-form">
     {% csrf_token %}
     <div>{{ form.non_field_errors }}</div>

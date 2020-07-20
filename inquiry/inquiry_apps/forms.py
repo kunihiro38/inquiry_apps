@@ -1,8 +1,9 @@
 from django import forms
 from .models import InquiryComment
 from datetime import datetime, timezone, timedelta
+from django.core.exceptions import ValidationError
 
-
+from django.contrib.auth import authenticate
 
 class LoginForm(forms.Form):
     username = forms.CharField(required=True,
@@ -21,6 +22,18 @@ class LoginForm(forms.Form):
                                     }
                                 ))
                                 
+
+    def clean(self):
+        cleaned_data = super(LoginForm, self).clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+        if username and password:
+            auth_result = authenticate(username=cleaned_data['username'], password=cleaned_data['password'])
+            if not auth_result:
+                raise ValidationError('Wrong username or password')
+        return cleaned_data
+
+
     def clean_username(self):
         username = self.cleaned_data['username']
 
@@ -100,7 +113,6 @@ class InquiryFindForm(forms.Form):
         return word
 
 class AddInquiryCommentForm(forms.Form):
-    # 0626import でmodelsから持ってくる
     PERSON_IN_CHARGE_CHOICES = (
         ("", ""),
         (InquiryComment.PersonInCharge.Andrew, 'Andrew'),

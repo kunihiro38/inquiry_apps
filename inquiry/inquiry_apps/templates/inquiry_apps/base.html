@@ -22,12 +22,14 @@
                         <i></i>
                         <i></i>
                         <i></i>
+                        <i></i>
                     </span>
                 </label>
                 <nav class="header-navi">
                     <div class="header-navi-wrap">
                         <ul class="header-navi-list">
-                            <li class="header-navi-item"><a href="/">Top page</a></li>
+                            <li class="header-navi-item"><a style="color:brown;">@ {{ user }}</a></li>
+                            <li class="header-navi-item"><a href="{% url 'inquiry_apps:inquiry_logout' %}">Logout</a></li>
                             <li class="header-navi-item"><a href="{% url 'inquiry_apps:inquiry_add' %}">Inquiry form</a></li>
                             <li class="header-navi-item"><a href="{% url 'inquiry_apps:inquiry_list' %}">Inquiry list</a></li>
                             <li class="header-navi-item"><a href="{% url 'inquiry_apps:inquiry_list_ajax' %}">Inquiry list Ajax</a></li>

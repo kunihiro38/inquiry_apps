@@ -1,4 +1,4 @@
-{% extends 'inquiry_apps/base.html' %}
+{% extends 'inquiry_apps/base_non_login.html' %}
 {% block page_title %}Top page{% endblock %}
 
 {% block header %}
@@ -9,5 +9,4 @@
 <h1>Index</h1>
 <a href="{% url 'inquiry_apps:inquiry_add' %}" class="btn-border">Add inquiry</a>
 <a href="{% url 'inquiry_apps:inquiry_list'%}" class="btn-border-manage">Manage inquiry</a>
-<a href="{% url 'inquiry_apps:inquiry_logout'%}" class="">Inquiry logout</a>
 {% endblock %}

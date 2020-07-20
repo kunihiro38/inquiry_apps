@@ -23,13 +23,10 @@ def inquiry_login(request):
         if str(request.user) != 'AnonymousUser':
             form = ''
         else:
-            word_in_advance = {
-                'username': '',
-                'password': '',
-            }
-            form = LoginForm(initial=word_in_advance)
+            form = LoginForm()
     
     else:
+
         form = LoginForm(request.POST)
         if form.is_valid():
             username = form.clean_username()
@@ -49,7 +46,7 @@ def inquiry_login(request):
 
 def inquiry_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('inquiry_apps:inquiry_list'))
+    return HttpResponseRedirect(reverse('inquiry_apps:index'))
 
 
 @require_http_methods(['GET'])
@@ -171,12 +168,12 @@ def _paginator(request, qs):
         inquiry_lists = paginator.page(paginator.num_pages)
     return inquiry_lists
 
-
+@login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET'])
 def inquiry_list_ajax(request):
     return render(request, 'inquiry_apps/inquiry_list_ajax/inquiry_list_ajax.html')
 
-
+@login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET'])
 def inquiry_list_ajax_response(request):
     qs = Inquiry.objects.order_by('updated_at').reverse()
@@ -209,7 +206,7 @@ def inquiry_list_ajax_response(request):
     return HttpResponse(template.render(context, request))
     # return render(request, 'inquiry_apps/inquiry_list_ajax/inquiry_list_ajax_response.html', context)
 
-
+@login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET'])
 def comment_list(request, inquiry_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
@@ -227,7 +224,7 @@ def comment_list(request, inquiry_id):
     # html側でPICを表示できるように
     return render(request, 'inquiry_apps/comment_list.html', context)
 
-
+@login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
 def comment_add(request, inquiry_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
@@ -258,6 +255,8 @@ def comment_add(request, inquiry_id):
     return HttpResponse(template.render(context, request))
     # return render(request, 'inquiry_apps/comment_add/comment_add.html', context)
 
+@login_required(login_url='/inquiry/login/')
+@require_http_methods(['GET'])
 def comment_add_success(request, inquiry_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
     # qs = InquiryComment.objects.order_by('updated_at').reverse()
@@ -268,7 +267,7 @@ def comment_add_success(request, inquiry_id):
     template = loader.get_template('inquiry_apps/comment_add/comment_add_success.html')
     return HttpResponse(template.render(context, request))
 
-
+@login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
 def delete_comment(request, inquiry_id, comment_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
@@ -291,6 +290,7 @@ def delete_comment(request, inquiry_id, comment_id):
     return HttpResponse(template.render(context, request))
 
 
+@login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET'])
 def delete_comment_success(request, inquiry_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
@@ -300,7 +300,7 @@ def delete_comment_success(request, inquiry_id):
 
     return render(request, 'inquiry_apps/comment_delete/delete_comment_success.html', context)
 
-
+@login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
 def edit_comment(request, inquiry_id, comment＿id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
@@ -346,6 +346,7 @@ def edit_comment(request, inquiry_id, comment＿id):
 
     return render(request, 'inquiry_apps/edit_comment/edit_comment.html', context)
 
+@login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET'])
 def edit_comment_success(request, inquiry_id, comment_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)

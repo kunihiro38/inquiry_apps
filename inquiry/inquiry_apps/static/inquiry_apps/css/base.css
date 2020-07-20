@@ -103,6 +103,24 @@ h1{
     border-radius: 20px;
 }
 
+
+/* login */
+
+.login-form,
+.login-form input,
+.login-form .errorlist.nonfield,
+.login-form div,
+.login-form button{
+    box-sizing: border-box;
+    width: 200px;
+    margin: 14px auto 5px auto;
+}
+
+
+
+/* login */
+
+
 /* table */
 table tr td{
     padding: 10px;
