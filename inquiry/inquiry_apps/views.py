@@ -108,6 +108,14 @@ def _some_page_href(id, email, current_page, word):
     return '?' + '&'.join(params)
 
 
+
+@login_required(login_url='/inquiry/login/')
+@require_http_methods(['GET', 'POST'])
+def edit_profile(request):
+    return render(request, 'inquiry_apps/edit_profile/edit_profile.html')
+
+
+
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET'])
 def inquiry_list(request):
@@ -282,7 +290,7 @@ def delete_comment(request, inquiry_id, comment_id):
             'inquiry_apps:delete_comment_success',
             args=(inquiry_id,))
         )
-
+    print(User.objects.values())
     context = {
         'inquiry_comment': inquiry_comment 
     }

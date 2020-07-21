@@ -36,13 +36,14 @@
         <th>InquiryStatus:</th>
         <td class="inquiry_status">
         <span>
-        {% if inquiry.inquiry_status == inquiry.InquiryStatus.Pending %}
-        Pending
-        {% elif inquiry.inquiry_status == inquiry.InquiryStatus.Ignore %}
-        Ignore
-        {% else %}
-        Completed
-        {% endif %}
+        {{ inquiry.inquiry_status_as_str}}
+        {# if inquiry.inquiry_status == inquiry.InquiryStatus.Pending #}
+        <!-- Pending -->
+        {# elif inquiry.inquiry_status == inquiry.InquiryStatus.Ignore #}
+        <!-- Ignore -->
+        {# else #}
+        <!-- Completed -->
+        {# endif #}
         </span>
         </td>
     </tr>
@@ -87,13 +88,15 @@
             <td><div class="container"><span>Pic_email</span><span>{{ inquiry_comment.pic_email }}</span></div></td>
             <td><div class="container"><span>Updated_at</span><span>{{ inquiry_comment.updated_at }}</span></div></td>
             <td><div class="container"><span>Status</span>
-                <span>{% if inquiry_comment.inquiry_status == inquiry.InquiryStatus.Pending%}
-                Pending
-                {% elif inquiry_comment.inquiry_status == inquiry.InquiryStatus.Ignore %}
-                Ignore
-                {% else %}
-                Completed
-                {% endif %}
+                <span>
+                {{ inquiry_comment.inquiry_status_as_str }}
+                {# if inquiry_comment.inquiry_status == inquiry.InquiryStatus.Pending #}
+                <!-- Pending -->
+                {# elif inquiry_comment.inquiry_status == inquiry.InquiryStatus.Ignore #}
+                <!-- Ignore -->
+                {# else #}
+                <!-- Completed -->
+                {# endif #}
                 </span></div>
             </td>
             <td><div class="container"><span>Comment</span><span>{{ inquiry_comment.comment|truncatechars:150 }}</span></div></td>

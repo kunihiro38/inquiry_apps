@@ -33,6 +33,15 @@ class Inquiry(models.Model):
         default=0
     )
 
+    def inquiry_status_as_str(self):
+        if self.inquiry_status == Inquiry.InquiryStatus.Pending:
+            return Inquiry.INQUIRY_STATUS_CHOICES[0][1]
+        if self.inquiry_status == Inquiry.InquiryStatus.Ignore:
+            return Inquiry.INQUIRY_STATUS_CHOICES[1][1]
+        if self.inquiry_status == Inquiry.InquiryStatus.Completed:
+            return Inquiry.INQUIRY_STATUS_CHOICES[2][1]
+
+
     def __str__(self):
         return self.subject
 
@@ -63,6 +72,13 @@ class InquiryComment(models.Model):
     updated_at = models.DateTimeField(verbose_name='updated_at',
                                         auto_now=True,)
 
+
+
+    class InquiryStatus():
+        Pending = 0
+        Ignore = 1
+        Completed = 2
+
     INQUIRY_STATUS_CHOICES = [
         (Inquiry.InquiryStatus.Pending, 'Pending'),
         (Inquiry.InquiryStatus.Ignore, 'Ignore'),
@@ -74,6 +90,24 @@ class InquiryComment(models.Model):
         choices=INQUIRY_STATUS_CHOICES,
         default=0
     )
+
+    if __name__ == '__main__':
+        print('来てる？')
+        result = Inquiry(inquiry_status)
+        result.inquiry_status_as_str()
+
+
+    # def inquiry_status_as_str(self):
+    #     print('きてる？')
+    #     if self.inquiry_status == InquiryComment.InquiryStatus.Pending:
+    #         return InquiryComment.INQUIRY_STATUS_CHOICES[0][1]
+    #     if self.inquiry_status == InquiryComment.InquiryStatus.Ignore:
+    #         return InquiryComment.INQUIRY_STATUS_CHOICES[1][1]
+    #     if self.inquiry_status == InquiryComment.InquiryStatus.Completed:
+    #         return InquiryComment.INQUIRY_STATUS_CHOICES[2][1]
+
+
+
     comment = models.CharField(max_length=500)
 
     def __str__(self):
