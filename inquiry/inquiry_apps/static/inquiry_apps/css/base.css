@@ -116,9 +116,29 @@ h1{
     margin: 14px auto 5px auto;
 }
 
-
-
 /* login */
+
+
+/* profile */
+.edit-profile-form{
+    background: skyblue;
+    box-sizing: border-box;
+    width: 450px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.edit-profile-form lbael{
+    background: red;
+}
+
+
+
+
+
+/* profile */
+
+
 
 
 /* table */

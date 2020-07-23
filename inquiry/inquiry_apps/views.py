@@ -7,7 +7,7 @@ from django.template import loader
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 from django.views.decorators.http import require_http_methods
-from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm, EditInquiryCommentForm, LoginForm
+from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm, EditInquiryCommentForm, LoginForm, EditProfileForm
 from .models import Inquiry, InquiryComment
 
 # login
@@ -112,7 +112,20 @@ def _some_page_href(id, email, current_page, word):
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
 def edit_profile(request):
-    return render(request, 'inquiry_apps/edit_profile/edit_profile.html')
+    qs = User.objects.get(id=1)
+    if request.method != 'POST':
+        form = EditProfileForm(request.GET)
+    else:
+        form = EditProfileForm(request.POST)
+        # if form.is_valid():
+
+    
+    context = {
+        'form': form,
+    }
+    template = loader.get_template('inquiry_apps/edit_profile/edit_profile.html')
+    return HttpResponse(template.render(context, request))
+    # return render(request, 'inquiry_apps/edit_profile/edit_profile.html')
 
 
 

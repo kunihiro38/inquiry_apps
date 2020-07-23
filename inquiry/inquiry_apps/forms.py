@@ -78,6 +78,38 @@ class InquiryAddForm(forms.Form):
         message = self.cleaned_data['message']
         return message
 
+
+class EditProfileForm(forms.Form):
+    name = forms.CharField(required=True,
+                            max_length='255')
+    email = forms.EmailField(required=True,
+                            max_length='255')
+    password = forms.CharField(required=True,
+                                max_length=255,
+                                widget=forms.PasswordInput(
+                                    attrs={
+                                        'placeholder': ''
+                                    }
+                                ))
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
+    
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        return name
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        return email
+
+    # def clean_password(self):
+    #     password = self.cleaned_data['password']
+    #     return password
+
+
+
+
 class InquiryFindForm(forms.Form):
     id = forms.IntegerField(required=False,
                                 min_value=1,
