@@ -80,11 +80,11 @@ class InquiryAddForm(forms.Form):
 
 
 class EditProfileForm(forms.Form):
-    name = forms.CharField(required=True,
+    username = forms.CharField(required=True,
                             max_length='255')
     email = forms.EmailField(required=True,
                             max_length='255')
-    password = forms.CharField(required=True,
+    password = forms.CharField(required=False,
                                 max_length=255,
                                 widget=forms.PasswordInput(
                                     attrs={
@@ -95,17 +95,17 @@ class EditProfileForm(forms.Form):
         cleaned_data = super().clean()
         return cleaned_data
     
-    def clean_name(self):
-        name = self.cleaned_data['name']
-        return name
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        return username
     
     def clean_email(self):
         email = self.cleaned_data['email']
         return email
 
-    # def clean_password(self):
-    #     password = self.cleaned_data['password']
-    #     return password
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        return password
 
 
 

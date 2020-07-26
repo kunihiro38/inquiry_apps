@@ -120,18 +120,38 @@ h1{
 
 
 /* profile */
+
 .edit-profile-form{
-    background: skyblue;
     box-sizing: border-box;
-    width: 450px;
-    text-align: center;
+    width: 500px;
+    padding: 1em;
     margin: 0 auto;
 }
 
-.edit-profile-form lbael{
-    background: red;
+/* profile-image */
+.edit-profile-form div{
+    text-align: center;
+    margin-left: 30px;s
 }
 
+/* last-login */
+.edit-profile-form ul li:nth-child(2){
+    font-size: 14px;
+    color: #ccc;
+}
+
+
+
+.edit-profile-form label{
+    display: inline-block;
+    width: 200px;
+    margin: 10px 10px;
+    text-align: right;
+}
+
+.edit-profile-form input{
+    margin: 10px 0;
+}
 
 
 

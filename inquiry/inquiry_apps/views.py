@@ -112,12 +112,20 @@ def _some_page_href(id, email, current_page, word):
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
 def edit_profile(request):
-    qs = User.objects.get(id=1)
+    user = User.objects.get(id=request.user.id)
+    
     if request.method != 'POST':
-        form = EditProfileForm(request.GET)
+        form = EditProfileForm(
+            initial={
+                'username': user.username,
+                'email': user.email,
+            }
+        )
     else:
-        form = EditProfileForm(request.POST)
-        # if form.is_valid():
+        form = EditProfileForm(data=request.POST)
+        if form.is_valid():
+            user.username = form.cleaned_data['username']
+            user.save()
 
     
     context = {

@@ -12,27 +12,42 @@
     <a href=""><img src="http://placeholder.jp" alt=""></a>
     <ul>
         <li>
-            <label for="">last login</label>
-            <span>2020-20-20</span>
+            <div><a href=""><img src="http://placehold.jp/150x150.png" alt=""></a></div>
+        </li>
+        <li>
+            <label for="">last login:</label>
+            <span>{{ user.last_login|date:"Y-m-j H:i " }}</span>
         </li>
         <li>
             <label for="id_name">name:</label>
-            {{ form.name }}
+            {{ form.username }}{{ form.username.errors }}
         </li>
         <li>
             <label for="id_email">Email:</label>
             {{ form.email }}
         </li>
         <li>
-            <label for="id_password">Current password:</label>
+            <label>Password:</label>
+            <span>Current password</span>
+        </li>
+        <li>
+            <label for="id_password"></label>
+            <span>{{ form.password }}{{ form.password.errors }}</span>
+        </li>
+        <li>
+            <label for=""></label>
+            <span>New password:</span>
+        </li>
+        <li>
+            <label for="id_password"></label>
             {{ form.password }}
         </li>
         <li>
-            <label for="id_password">New password:</label>
-            {{ form.password }}
+            <label for="id_password"></label>
+            <span>Confirm new password:</span>
         </li>
         <li>
-            <label for="id_password">Confirm new password:</label>
+            <label for=""></label>
             {{ form.password }}
         </li>
         <li>
