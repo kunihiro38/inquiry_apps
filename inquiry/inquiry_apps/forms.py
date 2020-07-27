@@ -1,26 +1,30 @@
 from django import forms
-from .models import InquiryComment
+from .models import InquiryComment, InquiryStatus
 from datetime import datetime, timezone, timedelta
 from django.core.exceptions import ValidationError
 
 from django.contrib.auth import authenticate
 
 class LoginForm(forms.Form):
-    username = forms.CharField(required=True,
-                                max_length=255,
-                                widget=forms.TextInput(
-                                    attrs={
-                                        'placeholder': 'User name'
-                                    }
-                                ),)
+    username = forms.CharField(
+        required=True,
+        max_length=255,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Usernam',
+                'class': 'input-field',
+            }
+        ))
     
-    password = forms.CharField(required=True,
-                                max_length=255,
-                                widget=forms.PasswordInput(
-                                    attrs={
-                                        'placeholder': 'Password'
-                                    }
-                                ))
+    password = forms.CharField(
+        required=True,
+        max_length=255,
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Password',
+                'class': 'input-field',
+            }
+        ))
                                 
 
     def clean(self):
@@ -44,19 +48,23 @@ class LoginForm(forms.Form):
         return password
 
 class InquiryAddForm(forms.Form):
-    name = forms.CharField(required=True,
-                            max_length=255,)
-    email = forms.EmailField(required=True,
-                              max_length=255,)
-    subject = forms.CharField(required=False,
-                                max_length=255,)
-    message = forms.CharField(required=True,
-                                max_length=1000,
-                                widget=forms.Textarea(
-                                    attrs={
-                                        'placeholder': 'input some words',
-                                    }
-                                ),)
+    name = forms.CharField(
+        required=True,
+        max_length=255,)
+    email = forms.EmailField(
+        required=True,
+        max_length=255,)
+    subject = forms.CharField(
+        required=False,
+        max_length=255,)
+    message = forms.CharField(
+        required=True,
+        max_length=1000,
+        widget=forms.Textarea(
+            attrs={
+                'placeholder': 'input some words',
+            }
+        ),)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -80,17 +88,53 @@ class InquiryAddForm(forms.Form):
 
 
 class EditProfileForm(forms.Form):
-    username = forms.CharField(required=True,
-                            max_length='255')
-    email = forms.EmailField(required=True,
-                            max_length='255')
-    password = forms.CharField(required=False,
-                                max_length=255,
-                                widget=forms.PasswordInput(
-                                    attrs={
-                                        'placeholder': ''
-                                    }
-                                ))
+    username = forms.CharField(
+        required=True,
+        max_length='255',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'username',
+                'class': 'input-field'
+            }
+        ))
+    email = forms.EmailField(
+        required=True,
+        max_length='255',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'email',
+                'class': 'input-field'
+            }
+        ))
+    current_password = forms.CharField(
+        required=False,
+        max_length=255,
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': '',
+                'class': 'input-field'
+            }
+        ))
+    new_password = forms.CharField(
+        required=True,
+        max_length=255,
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': '',
+                'class': 'input-field'
+            }
+        ))
+    confirm_new_password = forms.CharField(
+        required=False,
+        max_length=255,
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': '',
+                'class': 'input-field'
+            }
+        )
+    )
+
     def clean(self):
         cleaned_data = super().clean()
         return cleaned_data
@@ -103,8 +147,8 @@ class EditProfileForm(forms.Form):
         email = self.cleaned_data['email']
         return email
 
-    def clean_password(self):
-        password = self.cleaned_data['password']
+    def clean_current_password(self):
+        password = self.cleaned_current_data['password']
         return password
 
 
@@ -159,7 +203,7 @@ class AddInquiryCommentForm(forms.Form):
                                 max_length=255,)
 
     inquiry_status = forms.fields.ChoiceField(
-                                    choices = InquiryComment.INQUIRY_STATUS_CHOICES,
+                                    choices = InquiryStatus.INQUIRY_STATUS_CHOICES,
                                     widget=forms.widgets.Select,
                                     )
     comment = forms.CharField(required=True,
@@ -195,7 +239,7 @@ class AddInquiryCommentForm(forms.Form):
 
 class EditInquiryCommentForm(forms.Form):
     inquiry_status = forms.fields.ChoiceField(
-                                    choices = InquiryComment.INQUIRY_STATUS_CHOICES,
+                                    choices = InquiryStatus.INQUIRY_STATUS_CHOICES,
                                     widget=forms.widgets.Select,
                                     )
     comment = forms.CharField(required=True,

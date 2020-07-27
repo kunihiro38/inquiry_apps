@@ -104,6 +104,23 @@ h1{
 }
 
 
+
+
+.input-field{
+    background: #fddada;
+    padding: 7px 7px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 180px;
+}
+
+.input-field:hover{
+    background: #fff;
+}
+
+
+
 /* login */
 
 .login-form,
@@ -152,7 +169,6 @@ h1{
 .edit-profile-form input{
     margin: 10px 0;
 }
-
 
 
 

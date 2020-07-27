@@ -1,6 +1,35 @@
 import datetime
 from django.db import models
 
+
+class InquiryStatus():
+
+    Pending = 0
+    Ignore = 1
+    Completed = 2
+
+    INQUIRY_STATUS_CHOICES = [
+        (Pending, 'Pending'),
+        (Ignore, 'Ignore'),
+        (Completed, 'Completed')
+    ]
+
+    @classmethod
+    def status_as_str(cls, inquiry_status):
+        if inquiry_status == InquiryStatus.Pending:
+            return cls.INQUIRY_STATUS_CHOICES[0][1]
+        
+        elif inquiry_status == InquiryStatus.Ignore:
+            return cls.INQUIRY_STATUS_CHOICES[1][1]
+        
+        elif inquiry_status == InquiryStatus.Completed:
+            return cls.INQUIRY_STATUS_CHOICES[2][1]
+        
+        else:
+            raise RuntimeError('invalid')
+        
+
+
 class Inquiry(models.Model):
     class Meta:
         db_table = 'inquiry'
@@ -32,6 +61,8 @@ class Inquiry(models.Model):
         choices=INQUIRY_STATUS_CHOICES,
         default=0
     )
+
+
 
     def inquiry_status_as_str(self):
         if self.inquiry_status == Inquiry.InquiryStatus.Pending:
@@ -72,30 +103,15 @@ class InquiryComment(models.Model):
     updated_at = models.DateTimeField(verbose_name='updated_at',
                                         auto_now=True,)
 
-
-
-    class InquiryStatus():
-        Pending = 0
-        Ignore = 1
-        Completed = 2
-
-    INQUIRY_STATUS_CHOICES = [
-        (Inquiry.InquiryStatus.Pending, 'Pending'),
-        (Inquiry.InquiryStatus.Ignore, 'Ignore'),
-        (Inquiry.InquiryStatus.Completed, 'Completed'),
-    ] 
-
     inquiry_status = models.IntegerField(
         verbose_name='inquiry_status',
-        choices=INQUIRY_STATUS_CHOICES,
+        choices=InquiryStatus.INQUIRY_STATUS_CHOICES,
         default=0
     )
 
-    if __name__ == '__main__':
-        print('来てる？')
-        result = Inquiry(inquiry_status)
-        result.inquiry_status_as_str()
-
+    def inquiry_status_as_str(self):
+        inquiry_status_as_str = InquiryStatus.status_as_str(self.inquiry_status)
+        return inquiry_status_as_str
 
     # def inquiry_status_as_str(self):
     #     print('きてる？')

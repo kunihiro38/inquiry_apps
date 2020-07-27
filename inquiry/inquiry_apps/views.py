@@ -19,6 +19,8 @@ from django.contrib.auth.decorators import login_required
 
 @require_http_methods(['GET', 'POST'])
 def inquiry_login(request):
+    # user = User.objects.create_user('test_user', 'test@example.com', 'testuser')
+    
     if request.method != 'POST':
         if str(request.user) != 'AnonymousUser':
             form = ''

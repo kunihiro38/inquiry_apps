@@ -32,7 +32,7 @@
         </li>
         <li>
             <label for="id_password"></label>
-            <span>{{ form.password }}{{ form.password.errors }}</span>
+            <span>{{ form.current_password }}{{ form.current_password.errors }}</span>
         </li>
         <li>
             <label for=""></label>
@@ -40,7 +40,7 @@
         </li>
         <li>
             <label for="id_password"></label>
-            {{ form.password }}
+            <span>{{ form.new_password }}{{ form.current_password.errors }}</span>
         </li>
         <li>
             <label for="id_password"></label>
@@ -48,7 +48,7 @@
         </li>
         <li>
             <label for=""></label>
-            {{ form.password }}
+            <span>{{ form.confirm_new_password }}{{ form.confirm_new_password.errors }}</span>
         </li>
         <li>
             <label for=""></label>
