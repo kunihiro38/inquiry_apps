@@ -313,7 +313,6 @@ def delete_comment(request, inquiry_id, comment_id):
             'inquiry_apps:delete_comment_success',
             args=(inquiry_id,))
         )
-    print(User.objects.values())
     context = {
         'inquiry_comment': inquiry_comment 
     }

@@ -3,7 +3,6 @@ from django.db import models
 
 
 class InquiryStatus():
-
     Pending = 0
     Ignore = 1
     Completed = 2
@@ -16,13 +15,13 @@ class InquiryStatus():
 
     @classmethod
     def status_as_str(cls, inquiry_status):
-        if inquiry_status == InquiryStatus.Pending:
+        if inquiry_status == cls.Pending:
             return cls.INQUIRY_STATUS_CHOICES[0][1]
         
-        elif inquiry_status == InquiryStatus.Ignore:
+        elif inquiry_status == cls.Ignore:
             return cls.INQUIRY_STATUS_CHOICES[1][1]
         
-        elif inquiry_status == InquiryStatus.Completed:
+        elif inquiry_status == cls.Completed:
             return cls.INQUIRY_STATUS_CHOICES[2][1]
         
         else:
@@ -44,33 +43,16 @@ class Inquiry(models.Model):
                                         auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='updated_at',
                                         auto_now_add=True)
-    
-    class InquiryStatus():
-        Pending = 0
-        Ignore = 1
-        Completed = 2
-    
-    INQUIRY_STATUS_CHOICES = [
-        (InquiryStatus.Pending, 'Pending'),
-        (InquiryStatus.Ignore, 'Ignore'),
-        (InquiryStatus.Completed, 'Completed'),
-    ]
 
     inquiry_status = models.IntegerField(
         verbose_name='inquiry_status',
-        choices=INQUIRY_STATUS_CHOICES,
+        choices=InquiryStatus.INQUIRY_STATUS_CHOICES,
         default=0
     )
 
-
-
     def inquiry_status_as_str(self):
-        if self.inquiry_status == Inquiry.InquiryStatus.Pending:
-            return Inquiry.INQUIRY_STATUS_CHOICES[0][1]
-        if self.inquiry_status == Inquiry.InquiryStatus.Ignore:
-            return Inquiry.INQUIRY_STATUS_CHOICES[1][1]
-        if self.inquiry_status == Inquiry.InquiryStatus.Completed:
-            return Inquiry.INQUIRY_STATUS_CHOICES[2][1]
+        inquiry_status_as_str = InquiryStatus.status_as_str(self.inquiry_status)
+        return inquiry_status_as_str
 
 
     def __str__(self):
@@ -112,16 +94,6 @@ class InquiryComment(models.Model):
     def inquiry_status_as_str(self):
         inquiry_status_as_str = InquiryStatus.status_as_str(self.inquiry_status)
         return inquiry_status_as_str
-
-    # def inquiry_status_as_str(self):
-    #     print('きてる？')
-    #     if self.inquiry_status == InquiryComment.InquiryStatus.Pending:
-    #         return InquiryComment.INQUIRY_STATUS_CHOICES[0][1]
-    #     if self.inquiry_status == InquiryComment.InquiryStatus.Ignore:
-    #         return InquiryComment.INQUIRY_STATUS_CHOICES[1][1]
-    #     if self.inquiry_status == InquiryComment.InquiryStatus.Completed:
-    #         return InquiryComment.INQUIRY_STATUS_CHOICES[2][1]
-
 
 
     comment = models.CharField(max_length=500)
