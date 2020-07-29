@@ -1,9 +1,44 @@
 import re
 import datetime
-from django.test import TestCase
+from django.test import TestCase, Client
 from .models import Inquiry
 
+# login
+from django.contrib.auth.models import User
+
+'''
+try test
+% python manage.py test inquiry_apps.tests.InquiryViewTests
+'''
+
 class InquiryViewTests(TestCase):
+    # 0729
+    def test_inquiry_view_index_satatus_code(self):
+        '''
+        get status code 200 at index
+        '''
+        res = self.client.get(path='/')
+        self.assertEqual(res.status_code, 200)
+
+    # 0729
+    def test_inquiry_view_create_user_and_login(self):
+        '''
+        create a new user and login success
+        '''
+        User.objects.create_user('Tom', 'test@example.com', 'tomtestlogin')
+        res = self.client.get(path='/')
+        self.assertEqual(res.status_code, 200)
+        client_for_tom = Client()
+        user = {
+            'username': 'Tom',
+            'password': 'tomtestlogin'
+        }
+        res = client_for_tom.post(path='/inquiry/list/', data=user)
+        self.assertEqual(res.status_code, 302)
+
+
+
+
     def test_inquiry_view_all_response(self):
         '''
         1. confirm top page 200
