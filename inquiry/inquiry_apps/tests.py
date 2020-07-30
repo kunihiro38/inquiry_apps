@@ -1,7 +1,8 @@
 import re
 import datetime
 from django.test import TestCase, Client
-from .models import Inquiry
+from .models import InquiryStatus, Inquiry
+from .forms import InquiryAddForm
 
 # login
 from django.contrib.auth.models import User
@@ -107,3 +108,30 @@ class InquiryViewTests(TestCase):
         
         
 
+class InquiryModelTests(TestCase):
+    def test_inquiry_model_empty(self):
+        '''Inquiry model is effective'''
+        for i in range(10):
+            inquiry = Inquiry(
+                name='Mr.%s' % i,
+                email='test%s@example.com' % i,
+                subject='No.%s' % i,
+                message='number is {0}, name is {1}, age is {2}'
+                        .format(i, 'a', 1),
+                inquiry_status=InquiryStatus.Pending,
+            )
+            inquiry.save()
+        self.assertEqual(Inquiry.objects.all().count(), 10)
+
+
+
+class InquiryFormTests(TestCase):
+    def test_inquiry_form_validate_email(self):
+        '''use @@ email'''
+        params = {
+            'subject': 'subject',
+            'message': 'message',
+            'email': 'test@@example.com',
+        }
+        form = InquiryAddForm(data=params)
+        self.assertFalse(form.is_valid())
