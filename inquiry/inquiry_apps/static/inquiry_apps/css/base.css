@@ -152,24 +152,10 @@ h1{
 }
 
 /* last-login */
-.edit-profile-form ul li:nth-child(2){
+.last-login{
     font-size: 14px;
-    color: #ccc;
+    color: #aaa;
 }
-
-
-
-.edit-profile-form label{
-    display: inline-block;
-    width: 200px;
-    margin: 10px 10px;
-    text-align: right;
-}
-
-.edit-profile-form input{
-    margin: 10px 0;
-}
-
 
 
 /* profile */

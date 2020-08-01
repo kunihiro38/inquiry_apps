@@ -2,7 +2,7 @@ import re
 import datetime
 from django.test import TestCase, Client
 from .models import InquiryStatus, Inquiry
-from .forms import InquiryAddForm
+from .forms import InquiryAddForm, AddInquiryCommentForm
 
 # login
 from django.contrib.auth.models import User
@@ -135,3 +135,24 @@ class InquiryFormTests(TestCase):
         }
         form = InquiryAddForm(data=params)
         self.assertFalse(form.is_valid())
+        
+
+    def test_inquiry_form_post_long_name(self):
+        '''post long name is invalid'''
+        params = {
+            'name': 'a'* 256,
+            'email': 'test_user@example.com',
+            'subject': 'test_subject',
+            'message': 'test',
+        }
+        form = InquiryAddForm(data=params)
+        self.assertTrue(form.is_valid())
+
+    
+    def test_inquiry_comment_form_post_long_email(self):
+        '''post long email'''
+        params = {
+            'email': 'a'*20 + '@example.com',
+        }
+        form = AddInquiryCommentForm(data=params)
+        self.assertTrue(form.is_valid())
