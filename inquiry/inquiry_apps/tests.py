@@ -152,7 +152,10 @@ class InquiryFormTests(TestCase):
     def test_inquiry_comment_form_post_long_email(self):
         '''post long email'''
         params = {
+            'person_in_charge': 0,
             'email': 'a'*20 + '@example.com',
+            'inquiry_status': 0,
+            'comment': 'test',
         }
         form = AddInquiryCommentForm(data=params)
         self.assertTrue(form.is_valid())

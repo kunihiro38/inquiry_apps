@@ -53,6 +53,8 @@ def inquiry_logout(request):
 
 @require_http_methods(['GET'])
 def index(request):
+    print(User.objects.all())
+    
     return render(request, 'inquiry_apps/index.html')
 
 
@@ -241,24 +243,39 @@ def inquiry_list_ajax_response(request):
 @require_http_methods(['GET'])
 def comment_list(request, inquiry_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
-    qs = InquiryComment.objects.filter(inquiry_id=inquiry_id).order_by('id').reverse()
-    inquiry_comments = []
-    for p in qs:
-        inquiry_comments.append(p)
     
-    inquiry_comments = _paginator(request, inquiry_comments)
+    comment_list = []
+    qs = InquiryComment.objects.filter(inquiry_id=inquiry_id).order_by('id').reverse()
+
+    for inquiry_comment in qs:
+        user = User.objects.get(id=inquiry_comment.user_id)
+        inquiry_comment_dict = {
+            'id': inquiry_comment.id,
+            'user_id': inquiry_comment.user_id,
+            'user': user.username,
+            'email': user.email,
+            'updated_at': inquiry_comment.updated_at,
+            'comment': inquiry_comment.comment,
+            'inquiry_status': inquiry_comment.inquiry_status_as_str(),
+        }
+        comment_list.append(inquiry_comment_dict)
+    
+    comment_list = _paginator(request, comment_list)
 
     context = {
         'inquiry': inquiry,
-        'inquiry_comments': inquiry_comments,
+        'comment_list': comment_list,
     }
     # html側でPICを表示できるように
     return render(request, 'inquiry_apps/comment_list.html', context)
+
 
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
 def comment_add(request, inquiry_id):
     inquiry = get_object_or_404(Inquiry, id=inquiry_id)
+    request_data = User.objects.get(username=request.user)
+    
     if request.method != 'POST':
         form = AddInquiryCommentForm()
     else:
@@ -266,8 +283,7 @@ def comment_add(request, inquiry_id):
         if form.is_valid():
             inquiry_comment = InquiryComment(
                 inquiry_id=inquiry_id,
-                pic=form.cleaned_data['person_in_charge'],
-                pic_email=form.cleaned_data['email'],
+                user_id=request_data.id,
                 inquiry_status=form.cleaned_data['inquiry_status'],
                 comment=form.cleaned_data['comment'],
             )
@@ -277,7 +293,6 @@ def comment_add(request, inquiry_id):
             inquiry.save()
             return HttpResponseRedirect(reverse('inquiry_apps:comment_add_success',
                                                 args=(inquiry_id,)))
-
     context = {
         'inquiry': inquiry,
         'form': form,

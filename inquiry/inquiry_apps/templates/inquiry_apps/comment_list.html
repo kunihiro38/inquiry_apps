@@ -71,25 +71,17 @@
         </tr>
     </thead>
     <tbody>
-        {% for inquiry_comment in inquiry_comments %}
+        {% for comment in comment_list %}
         <tr>
-            <td>{{ inquiry_comment.id }}</td>
+            <td>{{ comment.id }}</td>
             <td>
                 <div class="container"><span>PIC</span>
-                    <span>{% if inquiry_comment.pic == comment.PersonInCharge.Andrew %}
-                    Andrew
-                    {% elif inquiry_comment.pic == comment.PersonInCharge.William %}
-                    William
-                    {% else %}
-                    Emma
-                    {% endif %}
-                    </span></div>
+                    <span>{{ comment.user }}</span></div>
             </td>
-            <td><div class="container"><span>Pic_email</span><span>{{ inquiry_comment.pic_email }}</span></div></td>
-            <td><div class="container"><span>Updated_at</span><span>{{ inquiry_comment.updated_at }}</span></div></td>
+            <td><div class="container"><span>Updated_at</span><span>{{ comment.updated_at|date:"j/m/Y H:i " }}</span></div></td>
             <td><div class="container"><span>Status</span>
                 <span>
-                {{ inquiry_comment.inquiry_status_as_str }}
+                {{ comment.inquiry_status }}
                 {# if inquiry_comment.inquiry_status == inquiry.InquiryStatus.Pending #}
                 <!-- Pending -->
                 {# elif inquiry_comment.inquiry_status == inquiry.InquiryStatus.Ignore #}
@@ -99,24 +91,24 @@
                 {# endif #}
                 </span></div>
             </td>
-            <td><div class="container"><span>Comment</span><span>{{ inquiry_comment.comment|truncatechars:150 }}</span></div></td>
-            <td><div class="container"><a href="{% url 'inquiry_apps:edit_comment' inquiry.id inquiry_comment.id %}">Edit</a></div></td>
-            <td><div class="container"><a href="{% url 'inquiry_apps:delete_comment' inquiry.id inquiry_comment.id %}">Delete</a></div></td>
+            <td><div class="container"><span>Comment</span><span>{{ comment.comment|truncatechars:150 }}</span></div></td>
+            <td><div class="container"><a href="{% url 'inquiry_apps:edit_comment' inquiry.id comment.id %}">Edit</a></div></td>
+            <td><div class="container"><a href="{% url 'inquiry_apps:delete_comment' inquiry.id comment.id %}">Delete</a></div></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-{% if inquiry_comments.has_previous %}
+{% if comment_list.has_previous %}
 <a href="?page={{ inquiry_comments.previous_page_number }}">◀︎Prev</a>
 {% endif %}
 
 
-Page {{ inquiry_comments.number }} of {{ inquiry_comments.paginator.num_pages }}
+Page {{ comment_list.number }} of {{ comment_list.paginator.num_pages }}
 
 
-{% if inquiry_comments.has_next %}
-<a href="?page={{ inquiry_comments.next_page_number }}">▶︎Next</a>
+{% if comment_list.has_next %}
+<a href="?page={{ comment_list.next_page_number }}">▶︎Next</a>
 {% endif %}
 
 

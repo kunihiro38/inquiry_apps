@@ -64,21 +64,9 @@ class InquiryComment(models.Model):
     inquiry_id = models.IntegerField(verbose_name='inquiry_id',
                                         null=True,)
 
-    class PersonInCharge():
-        Andrew = 0
-        William = 1
-        Emma = 2
-    
-    PERSON_IN_CHARGE_CHOICES = [
-        (PersonInCharge.Andrew, 'Andrew'),
-        (PersonInCharge.William, 'William'),
-        (PersonInCharge.Emma, 'Emma'),
-    ]
-    pic = models.IntegerField(verbose_name='person_in_charge',
-                            choices=PERSON_IN_CHARGE_CHOICES,
-                            max_length=20,)
-    pic_email = models.EmailField(verbose_name='pic_email',
-                                    max_length=255)
+    user_id = models.IntegerField(verbose_name='user_id',
+                                    null=True)
+
     created_at = models.DateTimeField(verbose_name='created_at',
                                         auto_now_add=True,)
 

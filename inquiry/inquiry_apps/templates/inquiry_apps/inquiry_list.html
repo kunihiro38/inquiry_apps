@@ -80,17 +80,7 @@
             <td><div class="container"><span>Email</span><span>{{ inquiry.email|truncatechars:15 }}</span></div></td>
             <td><div class="container"><span>Updated</span><span>{{ inquiry.updated_at|date:"j/m/Y H:i " }}</span></div></td>
             <td><div class="container"><span>Detail</span><span><a href="{% url 'inquiry_apps:comment_list' inquiry.id %}">detail</a></span></div></td>
-            <td>
-                <div class="container"><span>Status</span><span>
-                {% if inquiry.inquiry_status == inquiry.InquiryStatus.Pending %}
-                Penging
-                {% elif inquiry.inquiry_status == inquiry.InquiryStatus.Ignore %}
-                Ignore
-                {% else %}
-                Competed
-                {% endif %}
-                </span></div>
-            </td>
+            <td><div class="container"><span>Status</span><span>{{ inquiry.inquiry_status_as_str }}</span></div></td>
         </tr>
         {% endfor %}
     </tbody>

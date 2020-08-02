@@ -189,19 +189,6 @@ class InquiryFindForm(forms.Form):
         return word
 
 class AddInquiryCommentForm(forms.Form):
-    PERSON_IN_CHARGE_CHOICES = (
-        ("", ""),
-        (InquiryComment.PersonInCharge.Andrew, 'Andrew'),
-        (InquiryComment.PersonInCharge.William, 'William'),
-        (InquiryComment.PersonInCharge.Emma, 'Emma'),
-    )
-    person_in_charge = forms.fields.ChoiceField(
-                                        choices = PERSON_IN_CHARGE_CHOICES,
-                                        required=False,
-                                        widget=forms.widgets.Select,)
-    email = forms.EmailField(required=True,
-                                max_length=255,)
-
     inquiry_status = forms.fields.ChoiceField(
                                     choices = InquiryStatus.INQUIRY_STATUS_CHOICES,
                                     widget=forms.widgets.Select,
@@ -216,14 +203,6 @@ class AddInquiryCommentForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         return cleaned_data
-
-    def clean_person_in_charge(self):
-        person_in_charge = self.cleaned_data['person_in_charge']
-        return person_in_charge
-    
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        return email
 
     def clean_inquiry_status(self):
         inquiry_status = self.cleaned_data['inquiry_status']
