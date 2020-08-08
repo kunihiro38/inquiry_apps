@@ -124,6 +124,35 @@ class InquiryModelTests(TestCase):
         self.assertEqual(Inquiry.objects.all().count(), 10)
 
 
+    def test_inquiry_model_empty(self):
+        '''data must be saved'''
+        inquiry = Inquiry(
+            name='Mr.first',
+            email='test@example.com',
+            subject='test subject',
+            message='test',    
+        )
+        inquiry.save()
+        saved_inquiry = Inquiry.objects.all()
+        self.assertEqual(saved_inquiry.count(), 1)
+
+
+    def test_inquiry_model_inquiry_status_change_to_ignore(self):
+        '''Changing completed to Ignore is not allowed'''
+        inquiry = Inquiry(
+            name='Mr.first',
+            email='test@example.com',
+            subject='test subject',
+            message='test',
+            inquiry_status=InquiryStatus.Completed,
+        )
+        inquiry.save() # inquiry_status = 0
+        print(Inquiry.objects.values())
+        # 0809 この続き
+
+
+
+
 
 class InquiryFormTests(TestCase):
     def test_inquiry_form_validate_email(self):

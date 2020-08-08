@@ -20,4 +20,5 @@ Technology implemented
 - pagination by Ajax
 - login
 - logout
+- test
 - upload images
