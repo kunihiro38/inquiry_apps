@@ -140,6 +140,43 @@ def edit_profile(request):
     # return render(request, 'inquiry_apps/edit_profile/edit_profile.html')
 
 
+@login_required(login_url='/inquiry/login/')
+@require_http_methods(['GET', 'POST'])
+def edit_name(request):
+    user = User.objects.get(id=request.user.id)
+    context = {
+        'user': user,
+        # 'form': form,
+    }
+    template = loader.get_template('inquiry_apps/edit_profile/edit_name.html')
+    return HttpResponse(template.render(context, request))
+    # return render(request, 'inquiry_apps/edit_profile/edit_name.html')
+
+
+
+@login_required(login_url='/inquiry/login/')
+@require_http_methods(['GET', 'POST'])
+def edit_email(request):
+    user = User.objects.get(id=request.user.id)
+    context = {
+        'user': user,
+    }
+    template = loader.get_template('inquiry_apps/edit_profile/edit_email.html')
+    return HttpResponse(template.render(context, request))
+    # return render(request, 'inquiry_apps/edit_email.html')
+
+
+@login_required(login_url='/inquiry/login/')
+@require_http_methods(['GET', 'POST'])
+def edit_password(request):
+    user = User.objects.get(id=request.user.id)
+    context = {
+        'user': user,
+    }
+    template = loader.get_template('inquiry_apps/edit_profile/edit_password.html')
+    return HttpResponse(template.render(context, request))
+    # return render(request, 'inquiry_apps/edit_password.html')
+
 
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET'])

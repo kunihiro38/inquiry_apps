@@ -147,11 +147,10 @@ class InquiryModelTests(TestCase):
             inquiry_status=InquiryStatus.Completed,
         )
         inquiry.save() # inquiry_status = 0
-        print(Inquiry.objects.values())
-        # 0809 この続き
-
-
-
+        new_status = InquiryStatus.Ignore
+        (success, msg,) = inquiry.change_status_new_inquiry_status(new_status)
+        self.assertFalse(success)
+        self.assertTrue(msg)
 
 
 class InquiryFormTests(TestCase):

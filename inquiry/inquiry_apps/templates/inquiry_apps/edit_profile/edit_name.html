@@ -1,0 +1,29 @@
+{% extends 'inquiry_apps/base.html' %}
+{% block page_title %}Update name{% endblock %}
+
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<h1>Edit name</h1>
+<p>You can change your name</p>
+<form action="" method="post">
+{% csrf_token %}
+<table class="edit-profile-table">
+    <tr>
+        <th>Name:</th>
+        <td>{{ user.username }}</td>
+    </tr>
+    <tr>
+        <td>
+            <button type="submit" class="btn">Update</button>
+        </td>
+    </tr>
+</table>
+
+</form>
+
+
+
+{% endblock %}

@@ -10,9 +10,9 @@
 
 
 
-<form action="" method="post">
+<form action="" method="post" >
 {% csrf_token %}
-<table>
+<table class="edit-profile-table">
     <tr>
         <td>
             <div><a href=""><img src="https://placehold.jp/150x150.png" salt=""></a></div>
@@ -34,7 +34,7 @@
             </ul>
         </th>
         <td>
-            <a href="">Edit</a>
+            <a href="{% url 'inquiry_apps:edit_name' %}">Edit</a>
         </td>
     </tr>
     <tr>
@@ -45,7 +45,7 @@
             </ul>
         </th>
         <td>
-            <a href="">Edit</a>
+            <a href="{% url 'inquiry_apps:edit_email' %}">Edit</a>
         </td>
     </tr>
     <tr>
@@ -56,7 +56,12 @@
             </ul>
         </th>
         <td>
-            <a href="">Edit</a>
+            <a href="{% url 'inquiry_apps:edit_password' %}">Edit</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="{% url 'inquiry_apps:inquiry_list' %}"><input type="button" value="Finish" class="btn"></a>
         </td>
     </tr>
 

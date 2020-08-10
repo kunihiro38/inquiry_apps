@@ -138,17 +138,12 @@ h1{
 
 /* profile */
 
-.edit-profile-form{
+.edit-profile-table{
     box-sizing: border-box;
-    width: 500px;
-    padding: 1em;
-    margin: 0 auto;
-}
-
-/* profile-image */
-.edit-profile-form div{
+    border: 1px solid rgba(241, 70, 233, 0.377);
+    border-radius: 5px;
     text-align: center;
-    margin-left: 30px;s
+    margin: 0 auto;
 }
 
 /* last-login */

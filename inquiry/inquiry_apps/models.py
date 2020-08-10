@@ -58,6 +58,47 @@ class Inquiry(models.Model):
     def __str__(self):
         return self.subject
 
+
+    # only using test
+    def change_status_new_inquiry_status(self, new_status):
+        if not isinstance(new_status, int):
+            raise ValueError('A value other than a character string has been assigned')
+
+        all_inquiry_status = (InquiryStatus.Pending,
+                                InquiryStatus.Ignore,
+                                InquiryStatus.Completed)
+        
+        if not new_status in all_inquiry_status:
+            raise ValueError('Value out of range is assigned')
+
+        RET_KEEP = (True, 'keep status')
+        RET_DENIED = (False, 'request denied')
+        RET_COMPLETED = (True, 'status changed!')
+        STATUS_CHANGED_DICT = {
+            InquiryStatus.Pending:{
+                InquiryStatus.Pending: RET_KEEP,
+                InquiryStatus.Ignore: RET_DENIED,
+                InquiryStatus.Completed: RET_COMPLETED,
+            },
+            InquiryStatus.Ignore:{
+                InquiryStatus.Pending: RET_KEEP,
+                InquiryStatus.Ignore: RET_DENIED,
+                InquiryStatus.Completed: RET_COMPLETED,
+            },
+            InquiryStatus.Completed:{
+                InquiryStatus.Pending: RET_KEEP,
+                InquiryStatus.Ignore: RET_DENIED,
+                InquiryStatus.Completed: RET_COMPLETED,
+            }
+        }
+        (success, msg) = STATUS_CHANGED_DICT[self.inquiry_status][new_status]
+
+        if success == True:
+            self.inquiry_status = new_status
+            self.save()
+        return (success, msg,)
+
+
 class InquiryComment(models.Model):
     class Meta:
         db_table = 'inquiry_comment'
