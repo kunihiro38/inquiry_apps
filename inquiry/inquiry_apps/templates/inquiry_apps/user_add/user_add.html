@@ -1,0 +1,47 @@
+{% extends 'inquiry_apps/base_non_login.html' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+{% endblock %}
+
+{% block content %}
+<h1>Add user form</h1>
+<form action="" method="post">
+    <table class="user-add-table">
+        {% csrf_token %}
+        <tr>
+            <th>Username:</th>
+            <td>{{ form.username }}{{ form.username.errors }}</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>{{ form.email }}{{ form.email.errors }}</td>
+        </tr>
+        <!-- <tr>
+            <th>Birthday:</th>
+            <td><input type="date"></td>
+        </tr> -->
+        <tr>
+            <th>Birthday:</th>
+            <td>{{ form.birthday }}{{ form.birthday.errors }}</td>
+        <!-- </tr>
+        <tr>
+            <th>Birthday:</th>
+            <td></td>
+        </tr> -->
+        <tr>
+            <th>Password:</th>
+            <td>{{ form.password }}{{ form.password.errors }}</td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}
+
+{% load static %}
+{% block extra_js %}
+<!-- jquery 専用UI -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="{% static 'inquiry_apps/js/user_add.js' %}"></script>
+<!-- jquery 専用UI -->
+{% endblock %}

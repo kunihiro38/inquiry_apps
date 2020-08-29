@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 
 from django.contrib.auth import authenticate
 
+from django.contrib.admin.widgets import AdminDateWidget
+
 class LoginForm(forms.Form):
     username = forms.CharField(
         required=True,
@@ -86,6 +88,50 @@ class InquiryAddForm(forms.Form):
         message = self.cleaned_data['message']
         return message
 
+
+class AddUserForm(forms.Form):
+    username = forms.CharField(
+        required=True,
+        max_length=150,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'name',
+                'class': '',
+            }
+        )
+    )
+
+    email = forms.EmailField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Your email',
+                'class': '',
+            }
+        )
+    )
+
+    birthday = forms.DateField(
+        required=True,
+        widget=forms.SelectDateWidget(
+        )
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        return email
+
+    def clean_birthday(self):
+        birthday = self.cleaned_data['birthday']
+        return birthday
 
 class EditProfileForm(forms.Form):
     username = forms.CharField(

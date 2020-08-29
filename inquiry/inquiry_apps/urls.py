@@ -6,6 +6,7 @@ app_name = 'inquiry_apps'
 urlpatterns = [
     path('inquiry/login/', views.inquiry_login, name='inquiry_login'),
     path('inquiry/logout/', views.inquiry_logout, name='inquiry_logout'),
+    path('inquiry/add/user/', views.user_add, name='user_add'),
     path('inquiry/edit/profile/', views.edit_profile, name='edit_profile'),
     path('inquiry/edit/profile/name/', views.edit_name, name='edit_name'),
     path('inquiry/edit/profile/email/', views.edit_email, name='edit_email'),

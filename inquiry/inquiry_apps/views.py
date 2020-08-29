@@ -7,7 +7,7 @@ from django.template import loader
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 from django.views.decorators.http import require_http_methods
-from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm, EditInquiryCommentForm, LoginForm, EditProfileForm
+from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm, EditInquiryCommentForm, LoginForm, EditProfileForm, AddUserForm
 from .models import Inquiry, InquiryComment
 
 # login
@@ -96,6 +96,30 @@ def inquiry_add_success(request):
         'posted_inquiry_id': qs[0].id,
     }
     return render(request, 'inquiry_apps/inquiry_add/inquiry_add_success.html', context)
+
+
+@require_http_methods(['GET', 'POST'])
+def user_add(request):
+    # if request.method != 'POST':
+    #     form = AddUserForm()
+    # else:
+    #     form = AddUserForm(request.POST)
+    #     if form.is_valid():
+    #         user = User.objects.create_user(
+    #             username=form.cleaned_data['username'],
+    #             email=form.cleaned_data['email'],
+    #             password=form.cleaned_data['password']
+    #         )
+    
+    # context = {
+    #     'form' : form
+    # }
+    # template = loader.get_template('inquiry_apps/user_add//user_add.html')
+    # return HttpResponse(template.render(context, request))
+
+    form = AddUserForm()
+    return render(request, 'inquiry_apps/user_add/user_add.html', context={'form': form})
+
 
 
 
