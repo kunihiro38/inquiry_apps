@@ -12,16 +12,16 @@
 {% csrf_token %}
 <table class="edit-profile-table">
     <tr>
-        <th>Name:</th>
-        <td>{{ user.username }}</td>
+        <th>Username:</th>
+        <td>{{ form.username }}{{ form.username.errors }}</td>
     </tr>
     <tr>
+        <th></th>
         <td>
             <button type="submit" class="btn">Update</button>
         </td>
     </tr>
 </table>
-
 </form>
 
 

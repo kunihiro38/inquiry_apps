@@ -15,7 +15,7 @@
 <table class="edit-profile-table">
     <tr>
         <td>
-            <div><a href=""><img src="https://placehold.jp/150x150.png" salt=""></a></div>
+            <div><a href="{% url 'inquiry_apps:edit_profile_avator' %}"><img src="https://placehold.jp/150x150.png" salt=""></a></div>
         </td>
     </tr>
     <tr>
@@ -34,7 +34,7 @@
             </ul>
         </th>
         <td>
-            <a href="{% url 'inquiry_apps:edit_name' %}">Edit</a>
+            <a href="{% url 'inquiry_apps:edit_profile_username' %}">Edit</a>
         </td>
     </tr>
     <tr>
@@ -45,7 +45,7 @@
             </ul>
         </th>
         <td>
-            <a href="{% url 'inquiry_apps:edit_email' %}">Edit</a>
+            <a href="{% url 'inquiry_apps:edit_profile_email' %}">Edit</a>
         </td>
     </tr>
     <tr>

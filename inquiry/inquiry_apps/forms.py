@@ -7,6 +7,9 @@ from django.contrib.auth import authenticate
 
 from django.contrib.admin.widgets import AdminDateWidget
 
+# images
+from PIL import Image
+
 class LoginForm(forms.Form):
     username = forms.CharField(
         required=True,
@@ -24,7 +27,6 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Password',
-                'class': 'input-field',
             }
         ))
                                 
@@ -91,10 +93,10 @@ class InquiryAddForm(forms.Form):
 
 class AddUserForm(forms.Form):
     username = forms.CharField(
-        required=True,
-        max_length=150,
-        widget=forms.TextInput(
-            attrs={
+        required = True,
+        max_length = 150,
+        widget = forms.TextInput(
+            attrs = {
                 'placeholder': 'name',
                 'class': '',
             }
@@ -102,9 +104,9 @@ class AddUserForm(forms.Form):
     )
 
     email = forms.EmailField(
-        required=True,
-        widget=forms.TextInput(
-            attrs={
+        required = True,
+        widget = forms.TextInput(
+            attrs = {
                 'placeholder': 'Your email',
                 'class': '',
             }
@@ -112,8 +114,31 @@ class AddUserForm(forms.Form):
     )
 
     birthday = forms.DateField(
-        required=True,
-        widget=forms.SelectDateWidget(
+        required =False,
+        widget = forms.SelectDateWidget(
+            years = range(1950, 2017)
+        )
+    )
+
+    password = forms.CharField(
+        required = True,
+        max_length=255,
+        min_length=6,
+        widget = forms.PasswordInput(
+            attrs={
+                'placeholder': 'Password'
+            }
+        )
+    )
+
+    confirm_password = forms.CharField(
+        required = True,
+        max_length=255,
+        min_length=6,
+        widget = forms.PasswordInput(
+            attrs={
+                'placeholder': 'Confirm_Password'
+            }
         )
     )
 
@@ -133,10 +158,27 @@ class AddUserForm(forms.Form):
         birthday = self.cleaned_data['birthday']
         return birthday
 
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        return password
+
+    def clean_confirm_password(self):
+        confirm_password = self.cleaned_data['confirm_password']
+        if confirm_password != self.cleaned_data['password']:
+            raise ValidationError('Passwords do not match')
+        return confirm_password
+
+
+class UpLoadProfileImgForm(forms.Form):
+    avator = forms.ImageField(required=True)
+    # def clean_avator(self):
+    #     avator = self.cleaned_data['avator']
+    #     return avator
+
 class EditProfileForm(forms.Form):
     username = forms.CharField(
         required=True,
-        max_length='255',
+        max_length='150',
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'username',
@@ -198,6 +240,87 @@ class EditProfileForm(forms.Form):
         return password
 
 
+class EditProfileUsernameForm(forms.Form):
+    username = forms.CharField(
+        required=True,
+        max_length=150,
+        widget=forms.TextInput(
+            attrs={
+
+            }
+        )
+    )
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        return username
+
+
+class EditProfileEmailForm(forms.Form):
+    email = forms.EmailField(
+        required=True,
+        max_length=255,
+    )
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        return email
+
+
+class EditProfilePasswordForm(forms.Form):
+    current_password = forms.CharField(
+        required=True,
+        max_length=255,
+        min_length=6,
+        widget=forms.PasswordInput(
+        )
+    )
+
+    new_password = forms.CharField(
+        required=True,
+        max_length=255,
+        min_length=6,
+        widget=forms.PasswordInput(
+        )
+    )
+
+    confirm_new_password = forms.CharField(
+        required=True,
+        max_length=255,
+        min_length=6,
+        widget=forms.PasswordInput(
+        )
+    )
+
+    def __init__(self, _user_name, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._user_name = _user_name
+    
+    def clean(self):
+        cleaned_data = super(EditProfilePasswordForm, self).clean()
+        print(cleaned_data)
+        return cleaned_data
+
+    def clean_current_password(self):
+        current_password = self.cleaned_data['current_password']
+        if self._user_name and current_password:
+            auth_result = authenticate(
+                username = self._user_name,
+                password=current_password
+            )
+            if not auth_result:
+                raise ValidationError('Password is incorrect')
+        return current_password
+
+    def clean_new_password(self):
+        new_password = self.cleaned_data['new_password']
+        return new_password
+    
+    def clean_confirm_new_password(self):
+        confirm_new_password = self.cleaned_data['confirm_new_password']
+        if confirm_new_password != self.cleaned_data['new_password']:
+            raise ValidationError('Passwords do not match')
+        return confirm_new_password
 
 
 class InquiryFindForm(forms.Form):

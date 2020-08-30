@@ -1,0 +1,24 @@
+{% extends 'inquiry_apps/base.html' %}
+{% block page_title %}Edit avator{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<h1>Edit avator</h1>
+<p>You can change your avator</p>
+
+<form action="" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<table>
+    <div>{{ form.avator }}{{ form.avator.errors }}</div>
+
+    <tr>
+        <td>
+            <button type="submit" class="btn">Register</button>
+        </td>
+    </tr>
+</table>
+</form>
+
+{% endblock %}

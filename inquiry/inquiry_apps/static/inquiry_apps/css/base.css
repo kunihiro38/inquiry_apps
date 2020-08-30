@@ -146,6 +146,12 @@ h1{
     margin: 0 auto;
 }
 
+.edit-profile-table tr th ul{
+    text-align:left;
+}
+
+
+
 /* last-login */
 .last-login{
     font-size: 14px;

@@ -24,17 +24,26 @@
         <tr>
             <th>Birthday:</th>
             <td>{{ form.birthday }}{{ form.birthday.errors }}</td>
-        <!-- </tr>
-        <tr>
+        </tr>
+        <!-- <tr>
             <th>Birthday:</th>
-            <td></td>
+            <td><input type="text" id="datepicker"></td>
         </tr> -->
         <tr>
             <th>Password:</th>
             <td>{{ form.password }}{{ form.password.errors }}</td>
         </tr>
+        <tr>
+            <th>Confirm password:</th>
+            <td>{{ form.confirm_password }}{{ fomr.confirm_password.errors }}</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td><button type="submit" class="btn">Register</button></td>
+        </tr>
     </table>
 </form>
+
 
 {% endblock %}
 

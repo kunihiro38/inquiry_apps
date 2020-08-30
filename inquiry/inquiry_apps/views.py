@@ -7,8 +7,10 @@ from django.template import loader
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 from django.views.decorators.http import require_http_methods
-from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm, EditInquiryCommentForm, LoginForm, EditProfileForm, AddUserForm
-from .models import Inquiry, InquiryComment
+from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm, EditInquiryCommentForm, \
+    LoginForm, EditProfileForm, UpLoadProfileImgForm, EditProfileUsernameForm, EditProfileEmailForm, EditProfilePasswordForm, \
+    AddUserForm
+from .models import Inquiry, InquiryComment, UserProfile
 
 # login
 from django.contrib.auth import authenticate, login, logout
@@ -100,27 +102,29 @@ def inquiry_add_success(request):
 
 @require_http_methods(['GET', 'POST'])
 def user_add(request):
-    # if request.method != 'POST':
-    #     form = AddUserForm()
-    # else:
-    #     form = AddUserForm(request.POST)
-    #     if form.is_valid():
-    #         user = User.objects.create_user(
-    #             username=form.cleaned_data['username'],
-    #             email=form.cleaned_data['email'],
-    #             password=form.cleaned_data['password']
-    #         )
+    if request.method != 'POST':
+        form = AddUserForm()
+    else:
+        form = AddUserForm(request.POST)
+        if form.is_valid():
+            User.objects.create_user(
+                username=form.cleaned_data['username'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password']
+            )
+            return HttpResponseRedirect(reverse('inquiry_apps:user_add_success'))
+
     
-    # context = {
-    #     'form' : form
-    # }
-    # template = loader.get_template('inquiry_apps/user_add//user_add.html')
-    # return HttpResponse(template.render(context, request))
-
-    form = AddUserForm()
-    return render(request, 'inquiry_apps/user_add/user_add.html', context={'form': form})
+    context = {
+        'form' : form
+    }
+    template = loader.get_template('inquiry_apps/user_add/user_add.html')
+    return HttpResponse(template.render(context, request))
 
 
+@require_http_methods(['GET'])
+def user_add_success(request):
+    return render(request, 'inquiry_apps/user_add/user_add_success.html')
 
 
 def _some_page_href(id, email, current_page, word):
@@ -166,13 +170,49 @@ def edit_profile(request):
 
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
-def edit_name(request):
-    user = User.objects.get(id=request.user.id)
+def edit_profile_avator(request):
+    if request.method != 'POST':
+        form = UpLoadProfileImgForm()
+    else:
+        form = UpLoadProfileImgForm(request.POST, request.FILES)
+        if form.is_valid():
+            avator = form.cleaned_data['avator']
+            user_profile = UserProfile()
+            # user_profile.user_id = request.user.id
+            user_profile.avator = avator
+            user_profile.save()
+    
+    obj = UserProfile.objects.all()
     context = {
-        'user': user,
-        # 'form': form,
+        'form': form,
+        'obj': obj
     }
-    template = loader.get_template('inquiry_apps/edit_profile/edit_name.html')
+    return render(request, 'inquiry_apps/edit_profile/edit_avator.html', context)
+
+
+
+@login_required(login_url='/inquiry/login/')
+@require_http_methods(['GET', 'POST'])
+def edit_profile_username(request):
+    user = User.objects.get(id=request.user.id)
+    if request.method != 'POST':
+        form = EditProfileUsernameForm(
+            initial={
+                'username': user.username
+            }
+        )
+    else:
+        form = EditProfileUsernameForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            user.username = username
+            user.save()
+            return HttpResponseRedirect(reverse('inquiry_apps:edit_profile_success'))
+
+    context = {
+        'form': form,
+    }
+    template = loader.get_template('inquiry_apps/edit_profile/edit_username.html')
     return HttpResponse(template.render(context, request))
     # return render(request, 'inquiry_apps/edit_profile/edit_name.html')
 
@@ -180,10 +220,24 @@ def edit_name(request):
 
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
-def edit_email(request):
+def edit_profile_email(request):
     user = User.objects.get(id=request.user.id)
+    if request.method != 'POST':
+        form = EditProfileEmailForm(
+            initial={
+                'email': user.email
+            }
+        )
+    else:
+        form = EditProfileEmailForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            user.email = email
+            user.save()
+            return HttpResponseRedirect(reverse('inquiry_apps:edit_profile_success'))
+
     context = {
-        'user': user,
+        'form': form,
     }
     template = loader.get_template('inquiry_apps/edit_profile/edit_email.html')
     return HttpResponse(template.render(context, request))
@@ -192,14 +246,31 @@ def edit_email(request):
 
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
-def edit_password(request):
+def edit_profile_password(request):
     user = User.objects.get(id=request.user.id)
+    if request.method != 'POST':
+        form = EditProfilePasswordForm(user.username)
+    else:
+        form = EditProfilePasswordForm(user.username, request.POST)
+        if form.is_valid():
+            # current_password = form.cleaned_data['current_password']
+            # new_password = form.cleaned_data['new_password']
+            confirm_new_password = form.cleaned_data['confirm_new_password']
+            user.password = confirm_new_password
+            user.save()
+            return HttpResponseRedirect(reverse('inquiry_apps:edit_profile_success'))
+
     context = {
-        'user': user,
+        'form': form,
     }
     template = loader.get_template('inquiry_apps/edit_profile/edit_password.html')
     return HttpResponse(template.render(context, request))
-    # return render(request, 'inquiry_apps/edit_password.html')
+
+
+@login_required(login_url='/inquiry/login/')
+@require_http_methods(['GET'])
+def edit_profile_success(request):
+    return render(request, 'inquiry_apps/edit_profile/edit_profile_success.html')
 
 
 @login_required(login_url='/inquiry/login/')
