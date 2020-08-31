@@ -114,7 +114,7 @@ class AddUserForm(forms.Form):
     )
 
     birthday = forms.DateField(
-        required =False,
+        required =True,
         widget = forms.SelectDateWidget(
             years = range(1950, 2017)
         )
@@ -144,6 +144,7 @@ class AddUserForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
+        print(cleaned_data)
         return cleaned_data
 
     def clean_username(self):

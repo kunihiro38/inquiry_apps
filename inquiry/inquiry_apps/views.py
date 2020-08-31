@@ -21,8 +21,6 @@ from django.contrib.auth.decorators import login_required
 
 @require_http_methods(['GET', 'POST'])
 def inquiry_login(request):
-    # user = User.objects.create_user('test_user', 'test@example.com', 'testuser')
-    
     if request.method != 'POST':
         if str(request.user) != 'AnonymousUser':
             form = ''
@@ -55,8 +53,8 @@ def inquiry_logout(request):
 
 @require_http_methods(['GET'])
 def index(request):
-    print(User.objects.all())
-    
+    # user = User.objects.create_user('admin2', 'test@example.com', 'testuser')
+    # print(user)
     return render(request, 'inquiry_apps/index.html')
 
 
@@ -107,13 +105,18 @@ def user_add(request):
     else:
         form = AddUserForm(request.POST)
         if form.is_valid():
-            User.objects.create_user(
+            user=User.objects.create_user(
                 username=form.cleaned_data['username'],
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password']
             )
+            user_profile = UserProfile(
+                user_id=user.id,
+                # avator is default
+                birthday=form.cleaned_data['birthday']
+            )
+            user_profile.save()
             return HttpResponseRedirect(reverse('inquiry_apps:user_add_success'))
-
     
     context = {
         'form' : form
@@ -145,7 +148,7 @@ def _some_page_href(id, email, current_page, word):
 @require_http_methods(['GET', 'POST'])
 def edit_profile(request):
     user = User.objects.get(id=request.user.id)
-    
+    user_profile = UserProfile.objects.get(user_id=user.id)
     if request.method != 'POST':
         form = EditProfileForm(
             initial={
@@ -162,6 +165,7 @@ def edit_profile(request):
     
     context = {
         'form': form,
+        'profile_img': user_profile.avator
     }
     template = loader.get_template('inquiry_apps/edit_profile/edit_profile.html')
     return HttpResponse(template.render(context, request))
@@ -182,10 +186,8 @@ def edit_profile_avator(request):
             user_profile.avator = avator
             user_profile.save()
     
-    obj = UserProfile.objects.all()
     context = {
-        'form': form,
-        'obj': obj
+        'form': form
     }
     return render(request, 'inquiry_apps/edit_profile/edit_avator.html', context)
 

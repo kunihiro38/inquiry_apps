@@ -5,25 +5,25 @@ from django.db import models
 
 
 class UserProfile(models.Model):
-    # user_id = models.IntegerField(
-    #     verbose_name = 'user_id',
-    #     null = False,
-    # )
+    user_id = models.IntegerField(
+        verbose_name = 'user_id',
+        null = False,
+    )
     
     avator = models.ImageField(
         verbose_name = 'avator',
         upload_to = 'images/',
-        # default = 'images/default_icon.png'
+        default = 'images/default_icon.png'
     )
 
-    # birthday = models.DateField(
-    #     verbose_name = 'birthday',
-    #     null=True,
-    #     blank=False
-    # )
+    birthday = models.DateField(
+        verbose_name = 'birthday',
+        null=True,
+        blank=False
+    )
 
-    # def __init__(self):
-    #     return self.user_id
+    def __str__(self):
+        return self.user_id
 
 
 class InquiryStatus():
