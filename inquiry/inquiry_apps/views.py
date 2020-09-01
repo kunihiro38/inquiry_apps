@@ -148,6 +148,8 @@ def _some_page_href(id, email, current_page, word):
 @require_http_methods(['GET', 'POST'])
 def edit_profile(request):
     user = User.objects.get(id=request.user.id)
+    print(user.id)
+    
     user_profile = UserProfile.objects.get(user_id=user.id)
     if request.method != 'POST':
         form = EditProfileForm(
@@ -175,18 +177,26 @@ def edit_profile(request):
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
 def edit_profile_avator(request):
+    user_profile = UserProfile.objects.get(user_id=request.user.id)
     if request.method != 'POST':
         form = UpLoadProfileImgForm()
     else:
         form = UpLoadProfileImgForm(request.POST, request.FILES)
         if form.is_valid():
+            user_profile = UserProfile.objects.get(user_id=request.user.id)
             avator = form.cleaned_data['avator']
-            user_profile = UserProfile()
-            # user_profile.user_id = request.user.id
+
+            if user_profile.avator:
+                user_profile.delete()
+
+
+            user_profile.user_id = request.user.id
             user_profile.avator = avator
             user_profile.save()
+            return HttpResponseRedirect(reverse('inquiry_apps:edit_profile_success'))
     
     context = {
+        'avator': user_profile.avator,
         'form': form
     }
     return render(request, 'inquiry_apps/edit_profile/edit_avator.html', context)

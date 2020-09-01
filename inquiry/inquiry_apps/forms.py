@@ -172,9 +172,46 @@ class AddUserForm(forms.Form):
 
 class UpLoadProfileImgForm(forms.Form):
     avator = forms.ImageField(required=True)
-    # def clean_avator(self):
-    #     avator = self.cleaned_data['avator']
-    #     return avator
+    def clean_avator(self):
+        '''
+        1.filev形式
+        2.サイズ確認
+        3.ファイルサイズ確認
+
+        '''
+        avator = self.cleaned_data['avator']
+
+        if not avator:
+            raise ValidationError('not images')
+
+        IMG_WIDTH = 200
+        if avator.image.width < IMG_WIDTH:
+            raise ValidationError(
+                'The width of this image is %spx. \
+                Please register an image with a width of %spx or more.' \
+                % (avator.image.width, IMG_WIDTH)
+            )
+
+        IMG_HEIGHT = 200
+        if avator.image.height < IMG_HEIGHT:
+            raise ValidationError(
+                'The heigth of this image is %spx. \
+                Please register an image with a height of %spx or more.' \
+                % (avator.image.width, IMG_WIDTH)
+            )
+
+        IMG_SIZE = 2*1000*1000
+        if avator.size > IMG_SIZE:
+            raise ValidationError(
+                '画像サイズが大きすぎます。%sMBより小さいサイズの画像をお願いします。' \
+                % str(IMG_SIZE//1000//1000)
+            )
+
+
+        return avator
+
+
+
 
 class EditProfileForm(forms.Form):
     username = forms.CharField(

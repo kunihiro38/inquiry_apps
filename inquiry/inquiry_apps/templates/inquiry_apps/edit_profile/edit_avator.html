@@ -11,8 +11,10 @@
 <form action="" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
+    <tr>
+        <img src="{{ MEDIA_URL }}{{ avator }}" alt="">
+    </tr>
     <div>{{ form.avator }}{{ form.avator.errors }}</div>
-
     <tr>
         <td>
             <button type="submit" class="btn">Register</button>
