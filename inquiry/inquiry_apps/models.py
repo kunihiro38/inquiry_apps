@@ -2,6 +2,9 @@ import datetime
 from django.db import models
 
 
+# delete on FileField
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 
 class UserProfile(models.Model):
@@ -22,8 +25,18 @@ class UserProfile(models.Model):
         blank=False
     )
 
-    def __str__(self):
+    def __int__(self):
         return self.user_id
+
+
+@receiver(post_delete, sender=UserProfile)
+def delete_file(sender, instance, **kwargs):
+    print(instance)
+    print(type(instance))
+    print(**kwargs)
+    instance.avator.delete(False)
+
+
 
 
 class InquiryStatus():

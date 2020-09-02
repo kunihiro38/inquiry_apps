@@ -55,6 +55,7 @@ def inquiry_logout(request):
 def index(request):
     # user = User.objects.create_user('admin2', 'test@example.com', 'testuser')
     # print(user)
+    print(User.objects.values())
     return render(request, 'inquiry_apps/index.html')
 
 
@@ -183,7 +184,6 @@ def edit_profile_avator(request):
     else:
         form = UpLoadProfileImgForm(request.POST, request.FILES)
         if form.is_valid():
-            user_profile = UserProfile.objects.get(user_id=request.user.id)
             avator = form.cleaned_data['avator']
 
             if user_profile.avator:
