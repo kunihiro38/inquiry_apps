@@ -7,6 +7,8 @@ from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
 
+import os
+
 class UserProfile(models.Model):
     user_id = models.IntegerField(
         verbose_name = 'user_id',
@@ -29,14 +31,10 @@ class UserProfile(models.Model):
         return self.user_id
 
 
-@receiver(post_delete, sender=UserProfile)
-def delete_file(sender, instance, **kwargs):
-    print(instance)
-    print(type(instance))
-    print(**kwargs)
-    instance.avator.delete(False)
-
-
+# same as views os.remove('media/' + str(user_profile.avator))
+# @receiver(post_delete, sender=UserProfile)
+# def delete_file(sender, instance, **kwargs):
+#     instance.avator.delete(False)
 
 
 class InquiryStatus():

@@ -1,3 +1,4 @@
+import os
 import urllib.parse
 import datetime
 from django.urls import reverse
@@ -55,7 +56,6 @@ def inquiry_logout(request):
 def index(request):
     # user = User.objects.create_user('admin2', 'test@example.com', 'testuser')
     # print(user)
-    print(User.objects.values())
     return render(request, 'inquiry_apps/index.html')
 
 
@@ -187,8 +187,8 @@ def edit_profile_avator(request):
             avator = form.cleaned_data['avator']
 
             if user_profile.avator:
+                os.remove('media/' + str(user_profile.avator))
                 user_profile.delete()
-
 
             user_profile.user_id = request.user.id
             user_profile.avator = avator
