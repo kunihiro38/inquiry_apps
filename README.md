@@ -22,3 +22,6 @@ Technology implemented
 - logout
 - test
 - upload images
+ - uploaded images vaidation
+ - filename hash
+ 

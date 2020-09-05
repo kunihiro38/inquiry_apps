@@ -174,10 +174,9 @@ class UpLoadProfileImgForm(forms.Form):
     avator = forms.ImageField(required=True)
     def clean_avator(self):
         '''
-        1.filev形式
-        2.サイズ確認
-        3.ファイルサイズ確認
-
+        1. file format
+        2. Vertical and horizontal
+        3. file size
         '''
         avator = self.cleaned_data['avator']
 
@@ -203,7 +202,7 @@ class UpLoadProfileImgForm(forms.Form):
         IMG_SIZE = 2*1000*1000
         if avator.size > IMG_SIZE:
             raise ValidationError(
-                '画像サイズが大きすぎます。%sMBより小さいサイズの画像をお願いします。' \
+                'The image size is too large. Please give me an image smaller than %sMB.' \
                 % str(IMG_SIZE//1000//1000)
             )
 

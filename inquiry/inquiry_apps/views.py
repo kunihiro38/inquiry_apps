@@ -149,7 +149,6 @@ def _some_page_href(id, email, current_page, word):
 @require_http_methods(['GET', 'POST'])
 def edit_profile(request):
     user = User.objects.get(id=request.user.id)
-    print(user.id)
     
     user_profile = UserProfile.objects.get(user_id=user.id)
     if request.method != 'POST':

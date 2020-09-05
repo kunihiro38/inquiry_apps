@@ -1,3 +1,5 @@
+import os
+import hashlib
 import datetime
 from django.db import models
 
@@ -6,8 +8,18 @@ from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
+from datetime import datetime
 
-import os
+
+
+def _user_profile_avator_upload_to(instance, filename):
+    current_time = datetime.datetime.now()
+    pre_hash_name = '%s%s%s' % (instance.user_id, filename, current_time)
+    extension = str(filename).split('.')[-1]
+    hs_filename = '%s.%s' % (hashlib.md5(pre_hash_name.encode()).hexdigest(), extension)
+    saved_path = 'images/'
+    return '%s%s' % (saved_path, hs_filename)
+
 
 class UserProfile(models.Model):
     user_id = models.IntegerField(
@@ -17,7 +29,8 @@ class UserProfile(models.Model):
     
     avator = models.ImageField(
         verbose_name = 'avator',
-        upload_to = 'images/',
+        # upload_to = 'images/',
+        upload_to = _user_profile_avator_upload_to,
         default = 'images/default_icon.png'
     )
 
