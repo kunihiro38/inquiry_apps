@@ -22,6 +22,7 @@ Technology implemented
 - logout
 - test
 - upload images
- - uploaded images vaidation
- - filename hash
- 
+ - Image validity check
+ - filename hashing
+ - Sanitization
+ - resize

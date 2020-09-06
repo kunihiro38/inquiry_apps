@@ -1,6 +1,6 @@
 import os
 import urllib.parse
-import datetime
+
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -18,6 +18,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
+
+#img
+import tempfile
+from datetime import datetime
+from PIL import Image
+from django.core.files import File
 
 
 @require_http_methods(['GET', 'POST'])
@@ -178,6 +184,7 @@ def edit_profile(request):
 @require_http_methods(['GET', 'POST'])
 def edit_profile_avator(request):
     user_profile = UserProfile.objects.get(user_id=request.user.id)
+
     if request.method != 'POST':
         form = UpLoadProfileImgForm()
     else:
@@ -189,9 +196,32 @@ def edit_profile_avator(request):
                 os.remove('media/' + str(user_profile.avator))
                 user_profile.delete()
 
-            user_profile.user_id = request.user.id
-            user_profile.avator = avator
-            user_profile.save()
+
+            def handle_uploaded_file(f, path):
+                with open(path, 'wb+') as destination:
+                    for chunk in f.chunks():
+                        destination.write(chunk)
+
+            FILE_NAME = 'uploaded%s.png' % datetime.now().strftime('%Y-%m%d-%H%M')
+
+            with tempfile.TemporaryDirectory() as tmp_directory:
+                UPLOADED_PATH = '%s%s' % (tmp_directory, FILE_NAME)
+                handle_uploaded_file(request.FILES['avator'], UPLOADED_PATH)
+                img = Image.open(UPLOADED_PATH)
+
+                if 'exif' in img.info:
+                    img.info['exif'] = {}
+                
+                resized_img = img.resize((180, 180))
+                UPLOADED_PATH_WITH_RESIZED_IMG = '%s%s' % (tmp_directory, 'resized.png')
+                resized_img.save(UPLOADED_PATH_WITH_RESIZED_IMG)
+
+                f = open(UPLOADED_PATH_WITH_RESIZED_IMG, mode='rb')
+                
+                user_profile.avator = File(f)
+                user_profile.user_id = request.user.id
+                user_profile.save()
+
             return HttpResponseRedirect(reverse('inquiry_apps:edit_profile_success'))
     
     context = {
