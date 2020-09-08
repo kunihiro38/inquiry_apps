@@ -1,11 +1,15 @@
 import re
+import os
 import datetime
 from django.test import TestCase, Client
-from .models import InquiryStatus, Inquiry
+from .models import InquiryStatus, Inquiry, UserProfile
 from .forms import InquiryAddForm, AddInquiryCommentForm
 
 # login
 from django.contrib.auth.models import User
+
+# img
+from PIL import Image
 
 '''
 try test
@@ -187,3 +191,42 @@ class InquiryFormTests(TestCase):
         }
         form = AddInquiryCommentForm(data=params)
         self.assertTrue(form.is_valid())
+
+class UpLoadProfileImgFormTests(TestCase):
+    # 0908
+    def test_upload_profile_img_is_valid(self):
+        print(self)
+        '''UpLoadProfileImgForm is valid'''
+        User.objects.create_user('Tom', 'tom@example.com', 'isexamplevalid')
+        UserProfile.objects.create(user_id=1)
+
+
+        client_for_tom = Client()
+        user = {
+            'username': 'Tom',
+            'password': 'isexamplevalid'
+        }
+        res = client_for_tom.post(path='/inquiry/login/', data=user)
+        self.assertEqual(302, res.status_code)
+
+        if not os.path.exists('media/images/default_icon.png'):
+            self.fail('no file')
+        
+        uploaded_file = open('/Users/kunihiro/desktop/test/inquiry/inquiry/media/images/default_icon.png', 'rb')
+
+        # if post default_icon's name change so comment out
+        # res = client_for_tom.post(
+        #     path = '/inquiry/edit/profile/avator/',
+        #     data = {
+        #         'avator': uploaded_file
+        #     }
+        # )
+        # self.assertEqual(302, res.status_code)
+
+        # res = client_for_tom.get(path="/inquiry/edit/profile/success/")
+        # decoded_msg = re.findall(r'Your Profile was updated!', res.content.decode())
+        # self.assertEqual('Your Profile was updated!', decoded_msg[0])
+        # self.assertIn('Your Profile was updated!', decoded_msg[0])
+
+    
+    def test_uploat_profile_small_img_is_invalid(self):

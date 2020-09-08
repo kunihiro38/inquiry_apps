@@ -21,8 +21,13 @@ Technology implemented
 - login
 - logout
 - test
+  - views
+  - models
+  - forms
 - upload images
- - Image validity check
- - filename hashing
- - Sanitization
- - resize
+- Image validity check
+  - filename hashing
+  - Sanitization
+  - resize
+
+
