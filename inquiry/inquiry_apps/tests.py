@@ -229,4 +229,35 @@ class UpLoadProfileImgFormTests(TestCase):
         # self.assertIn('Your Profile was updated!', decoded_msg[0])
 
     
-    def test_uploat_profile_small_img_is_invalid(self):
+    def test_upload_profile_small_img_is_invalid(self):
+        '''a small size image must be validated'''
+        User.objects.create_user('Tom', 'tom@example.com', 'isexamplevalid')
+        UserProfile.objects.create(user_id=1)
+        if not os.path.exists('media/images/small-size.png'):
+            self.fail('no file')
+
+        
+        client_for_tom = Client()
+        user = {
+            'username': 'Tom',
+            'password': 'isexamplevalid'
+        }
+        res = client_for_tom.post(path='/inquiry/login/', data=user)
+        self.assertEqual(302, res.status_code)
+        
+
+        res = client_for_tom.get(path='/inquiry/edit/profile/avator/')
+        self.assertEqual(200, res.status_code)
+
+
+        uploaded_file = open('/Users/kunihiro/desktop/test/inquiry/inquiry/media/images/small-size.png', 'rb')
+
+
+        res = client_for_tom.post(
+            path = '/inquiry/edit/profile/avator/',
+            data = {
+                'avator': uploaded_file
+            }
+        )
+        error_msg = re.findall(r'Please register an image with a width of', res.content.decode())
+        self.assertEqual('Please register an image with a width of', error_msg[0])
