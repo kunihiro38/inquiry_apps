@@ -1,16 +1,18 @@
 import os
+import json
 import urllib.parse
 
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from .forms import InquiryAddForm, InquiryFindForm, AddInquiryCommentForm, EditInquiryCommentForm, \
-    LoginForm, EditProfileForm, UpLoadProfileImgForm, EditProfileUsernameForm, EditProfileEmailForm, EditProfilePasswordForm, \
-    AddUserForm
+LoginForm, EditProfileForm, UpLoadProfileImgForm, EditProfileUsernameForm, EditProfileEmailForm, EditProfilePasswordForm, \
+AddUserForm
 from .models import Inquiry, InquiryComment, UserProfile
 
 # login
@@ -180,50 +182,97 @@ def edit_profile(request):
     # return render(request, 'inquiry_apps/edit_profile/edit_profile.html')
 
 
+
+
+def _handle_uploaded_file(file, path):
+    '''docstring'''
+    with open(path, 'wb+') as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
+
+
+def _save_uploaded_img(request, request_file_avator, user_profile):
+    with tempfile.TemporaryDirectory() as tmp_directory:
+        file_name = 'uploaded%s.png' % datetime.now().strftime('%Y-%m%d-%H%M')
+        uploaded_path = '%s%s' % (tmp_directory, file_name)
+
+        _handle_uploaded_file(request_file_avator, uploaded_path)
+        img = Image.open(uploaded_path)
+
+        if 'exif' in img.info:
+            img.info['exif'] = {}
+
+        resized_img = img.resize((180, 180))
+        uploaded_path_with_resized_img = '%s%s' % (tmp_directory, 'resized.png')
+        resized_img.save(uploaded_path_with_resized_img)
+        file = open(uploaded_path_with_resized_img, mode='rb')
+        user_profile.avator = File(file)
+        user_profile.user_id = request.user.id
+        user_profile.save()
+        return str(user_profile.avator)
+
+
+
+# not apper csrf_exempt
+@csrf_exempt
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
 def edit_profile_avator(request):
+    '''docstring'''
     user_profile = UserProfile.objects.get(user_id=request.user.id)
 
     if request.method != 'POST':
         form = UpLoadProfileImgForm()
+
     else:
+        # post
+        if request.is_ajax():
+            if request.method == 'GET':
+                return JsonResponse({})
+
+            if request.method == 'POST':
+                form = UpLoadProfileImgForm(request.POST, request.FILES)
+                if not form.is_valid():
+                    json_dict = json.loads(form.errors.as_json())
+                    json_msg_list = []
+                    for json_msg_value in json_dict.values():
+                        json_msg_list.append(json_msg_value[0]['message'])
+
+                    data = {
+                        'success': False,
+                        'error_messages': json_msg_list,
+                    }
+
+                    return JsonResponse(data=data)
+
+                else:
+                    if user_profile.avator:
+                        os.remove('media/' + str(user_profile.avator))
+                        user_profile.delete()
+
+                    user_profile_avator = _save_uploaded_img(
+                        request, request.FILES['avator'], user_profile
+                    )
+
+                    data = {
+                        'success': True,
+                        'profile_img_path': user_profile_avator,
+                    }
+
+                    return JsonResponse(data=data)
+
         form = UpLoadProfileImgForm(request.POST, request.FILES)
         if form.is_valid():
-            avator = form.cleaned_data['avator']
-
+            user_profile = UserProfile.objects.get(user_id=request.user.id)
             if user_profile.avator:
                 os.remove('media/' + str(user_profile.avator))
                 user_profile.delete()
 
-
-            def handle_uploaded_file(f, path):
-                with open(path, 'wb+') as destination:
-                    for chunk in f.chunks():
-                        destination.write(chunk)
-
-            FILE_NAME = 'uploaded%s.png' % datetime.now().strftime('%Y-%m%d-%H%M')
-
-            with tempfile.TemporaryDirectory() as tmp_directory:
-                UPLOADED_PATH = '%s%s' % (tmp_directory, FILE_NAME)
-                handle_uploaded_file(request.FILES['avator'], UPLOADED_PATH)
-                img = Image.open(UPLOADED_PATH)
-
-                if 'exif' in img.info:
-                    img.info['exif'] = {}
-                
-                resized_img = img.resize((180, 180))
-                UPLOADED_PATH_WITH_RESIZED_IMG = '%s%s' % (tmp_directory, 'resized.png')
-                resized_img.save(UPLOADED_PATH_WITH_RESIZED_IMG)
-
-                f = open(UPLOADED_PATH_WITH_RESIZED_IMG, mode='rb')
-                
-                user_profile.avator = File(f)
-                user_profile.user_id = request.user.id
-                user_profile.save()
+            _save_uploaded_img(request, request.FILES['avator'], user_profile)
 
             return HttpResponseRedirect(reverse('inquiry_apps:edit_profile_success'))
-    
+
+
     context = {
         'avator': user_profile.avator,
         'form': form
@@ -235,6 +284,7 @@ def edit_profile_avator(request):
 @login_required(login_url='/inquiry/login/')
 @require_http_methods(['GET', 'POST'])
 def edit_profile_username(request):
+    '''docstring'''
     user = User.objects.get(id=request.user.id)
     if request.method != 'POST':
         form = EditProfileUsernameForm(

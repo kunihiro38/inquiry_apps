@@ -1,14 +1,12 @@
-import os
+'''docstring'''
 import hashlib
+from datetime import datetime
 from django.db import models
 
 
 # delete on FileField
-from django.db.models.signals import post_delete
-from django.dispatch import receiver
-
-from datetime import datetime
-
+# from django.db.models.signals import post_delete
+# from django.dispatch import receiver
 
 
 def _user_profile_avator_upload_to(instance, filename):
@@ -17,18 +15,19 @@ def _user_profile_avator_upload_to(instance, filename):
     extension = str(filename).split('.')[-1]
     hs_filename = '%s.%s' % (hashlib.md5(pre_hash_name.encode()).hexdigest(), extension)
     saved_path = 'images/'
+
     return '%s%s' % (saved_path, hs_filename)
 
 
 class UserProfile(models.Model):
+    '''docstring'''
     user_id = models.IntegerField(
         verbose_name = 'user_id',
         null = False,
     )
-    
+
     avator = models.ImageField(
         verbose_name = 'avator',
-        # upload_to = 'images/',
         upload_to = _user_profile_avator_upload_to,
         default = 'images/default_icon.png'
     )
@@ -50,6 +49,7 @@ class UserProfile(models.Model):
 
 
 class InquiryStatus():
+    '''docstring'''
     Pending = 0
     Ignore = 1
     Completed = 2
@@ -62,18 +62,19 @@ class InquiryStatus():
 
     @classmethod
     def status_as_str(cls, inquiry_status):
+        '''docstring'''
         if inquiry_status == cls.Pending:
             return cls.INQUIRY_STATUS_CHOICES[0][1]
-        
+
         elif inquiry_status == cls.Ignore:
             return cls.INQUIRY_STATUS_CHOICES[1][1]
-        
+
         elif inquiry_status == cls.Completed:
             return cls.INQUIRY_STATUS_CHOICES[2][1]
-        
+
         else:
             raise RuntimeError('invalid')
-        
+
 
 
 class Inquiry(models.Model):

@@ -25,6 +25,8 @@ Technology implemented
   - models
   - forms
 - upload images
+  - usual upload
+  - drag and drop(by using Ajax)
 - Image validity check
   - filename hashing
   - Sanitization

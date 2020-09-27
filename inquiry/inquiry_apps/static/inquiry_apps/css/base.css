@@ -150,6 +150,131 @@ h1{
     text-align:left;
 }
 
+.edit-profile-table tr td .avator{
+    margin: 15px;
+    border-radius: 50%;
+    border: 3px solid #f1a2e7;
+}
+
+
+/* drag and drop */
+#dragandrophandler{
+    border: 2px dotted #0B85A1;
+    height: 100px;
+    color: #92AAB0;
+    text-align: left;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 2em;
+}
+
+.edit-profile-table tr td div,
+.edit-profile-table tr td button{
+    margin: 13px;
+}
+/* drag and drop */
+
+/* modal dialog */
+.popup{
+    position: fixed;
+    box-sizing: border-box;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: .6s;
+}
+
+.popup.is-show{
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-inner{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 270px;
+    max-width: 600px;
+    padding: 50px;
+    background-color: #fff;
+    z-index: 2;
+}
+
+.close-btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.close-btn .close-icon{
+    font-size: 21px;
+    position: relative;
+    width: 1.4em;
+    height: 1.4em;
+    border: 10px solid #39a9d6;
+    border-radius: 100%;
+}
+
+.close-btn .close-icon::before{
+    position: absolute;
+    top: 0.2em;
+    left: 0.6em;
+    width: 0.2em;
+    height: 1em;
+    content: "";
+    background-color: #39a9d6;
+    transform: rotate(45deg);
+}
+
+.close-btn .close-icon::after{
+    position: absolute;
+    top: 0.6em;
+    left: 0.2em;
+    width: 1em;
+    height: 0.2em;
+    content: "";
+    background-color: #39a9d6;
+    transform: rotate(225deg);
+}
+
+.back-background{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .8);
+    z-index: 1;
+    cursor: pointer;
+}
+
+.popup .container{
+    border: 1px dotted #f00;
+    display: inline-block;
+    text-align: center;
+    padding: 20px;
+}
+
+.resize_prev_img{
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+}
+
+
+/* modal dialog */
+
+
 
 
 /* last-login */

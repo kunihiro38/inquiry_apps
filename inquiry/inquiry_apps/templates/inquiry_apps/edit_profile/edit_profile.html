@@ -15,7 +15,11 @@
 <table class="edit-profile-table">
     <tr>
         <td>
-            <div><a href="{% url 'inquiry_apps:edit_profile_avator' %}"><img src="{{ MEDIA_URL }}{{ profile_img }}" alt=""></a></div>
+            <div>
+                <a href="{% url 'inquiry_apps:edit_profile_avator' %}">
+                    <img src="{{ MEDIA_URL }}{{ profile_img }}" alt="" class="avator">
+                </a>
+            </div>
         </td>
     </tr>
     <tr>

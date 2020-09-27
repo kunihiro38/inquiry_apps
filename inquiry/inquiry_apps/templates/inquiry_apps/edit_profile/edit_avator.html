@@ -5,22 +5,53 @@
 {% endblock %}
 
 {% block content %}
-<h1>Edit avator</h1>
-<p>You can change your avator</p>
+<h1>Upload profile image</h1>
 
-<form action="" method="post" enctype="multipart/form-data">
-{% csrf_token %}
-<table>
-    <tr>
-        <img src="{{ MEDIA_URL }}{{ avator }}" alt="">
-    </tr>
-    <div>{{ form.avator }}{{ form.avator.errors }}</div>
+
+<table class="edit-profile-table">
     <tr>
         <td>
+            <img src="{{ MEDIA_URL }}{{ avator }}" alt="" class="avator">
+            <div id="ajax-response"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="dragandrophandler">Drag your profile picture here</div>
+            <div id="preview"></div>
+            <form action="" method="post" enctype="multipart/form-data">
+            {# csrf_token #}
+            <div>{{ form.avator }}{{ form.avator.errors }}</div>
             <button type="submit" class="btn">Register</button>
+            </form>
         </td>
     </tr>
 </table>
-</form>
 
+<!-- Modal dialog -->
+<div class="popup" id="js-popup">
+    <div class="popup-inner">
+        <div class="close-btn" id="js-close-btn">
+            <div class="close-icon"></div>
+        </div>
+        <div class="container">
+            <a href="#">
+                <div id="popup-preview"></div>
+            </a>
+            <p class="item">Do you want to register this image?</p>
+            <button class="item btn" id="popup-btn-y">Yes</button>
+            <button class="item btn" id="popup-btn-n">No</button>
+        </div>
+    </div>
+    <div class="back-background" id="js-black-bg"></div>
+</div>
+
+<!-- Modal dialog -->
+
+
+
+{% endblock %}
+{% load static %}
+{% block extra_js %}
+<script src="{% static 'inquiry_apps/js/upload_profile_img.js' %}"></script>
 {% endblock %}
