@@ -13,7 +13,7 @@ from PIL import Image
 class LoginForm(forms.Form):
     username = forms.CharField(
         required=True,
-        max_length=255,
+        max_length=30,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Usernam',
@@ -33,9 +33,7 @@ class LoginForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(LoginForm, self).clean()
-        username = cleaned_data.get('username')
-        password = cleaned_data.get('password')
-        if username and password:
+        if 'username' and 'password' in cleaned_data:
             auth_result = authenticate(username=cleaned_data['username'], password=cleaned_data['password'])
             if not auth_result:
                 raise ValidationError('Wrong username or password')
